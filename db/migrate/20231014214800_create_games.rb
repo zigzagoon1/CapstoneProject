@@ -4,6 +4,7 @@ class CreateGames < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :genre
       t.string :description
+      t.float :rating
 
       t.timestamps
     end
