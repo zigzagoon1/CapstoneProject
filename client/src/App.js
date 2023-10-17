@@ -1,3 +1,7 @@
+import React from 'react'
+import Home from './Home.js'
+import NavBar from './NavBar.js'
+
 import logo from './logo.svg';
 import './App.css';
 
