@@ -1,7 +1,8 @@
 class User < ApplicationRecord
     has_secure_password
 
-    validates :name, presence: true, length: {minimum: 2, maximum: 25}s
+    validates :name, presence: true, length: {minimum: 2, maximum: 25}
+    #validates :password, presence: true, length: {minimum: 8, maximum: 20}
 
     has_many :comments
     has_many :games, through: :comments

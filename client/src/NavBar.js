@@ -14,6 +14,9 @@ function NavBar() {
                     <div className="col-3 nav-item">
                         <NavLink className="nav-link text-center" to="/users">Members</NavLink>
                     </div>
+                    <div className="col-3 nav-item">
+                        <NavLink className="nav-link text-center" to="/signup">Sign Up</NavLink>
+                    </div>
                 </div>
 
             </div>

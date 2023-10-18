@@ -1,8 +1,14 @@
 class ImagesController < ApplicationController
     def index
         images = Image.all
-        render json: images
+        render json: images, status: :ok
     end
+
+    def show
+        image = Image.find_by(id: params[:id])
+        render json: image, status: :ok
+    end
+
 
     private
 

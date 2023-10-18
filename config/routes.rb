@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   #namespace :api do
     resources :games
     resources :comments
-    resources :images, only: [:index]
+    resources :images, only: [:index, :show]
     resources :users, only: [:index, :show, :update, :destroy]
 
     get '/me', to: 'users#show'

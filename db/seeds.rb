@@ -20,3 +20,8 @@ Image.create(src: "../client/public/Images/full-moon.png", alt: "Full moon", sca
 Image.create(src: "../client/public/Images/butterfly-stained-glass.png", alt: "Butterfly", scale: 100)
 Image.create(src: "../client/public/Images/forget-me-not.png", alt: "Forget-me-not", scale: 100)
 Image.create(src: "../client/public/Images/rainbow.png", alt: "Rainbow", scale: 100)
+
+User.create(name: "Kelly", username: "zigzag", bio: "Hi, I'm zigzag, the creator of this site!", photo: "", dob: "06/02/1994", games_played: 4, password: "greenday")
+Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards over and try to match two of the same image! You'll have to remember where the matching image is located.", rating: 4.5)
+
+Comment.create(user_id: 1, game_id: 1, text: "I hope you're enjoying the games!", likes: 1)
