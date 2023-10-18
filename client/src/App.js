@@ -9,6 +9,7 @@ import Games from './Games.js'
 import Members from './Members.js'
 import Signup from './Signup.js';
 import Login from './Login.js'
+import Account from './Account.js'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
               <Route path="/users" element={<Members /> } />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/account" element={<Account />} />
            </Routes>
         </div>
       </PauseProvider>

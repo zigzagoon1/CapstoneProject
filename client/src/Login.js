@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import { CurrentUserContext } from "./context/current_user";
 
 function Login({}) {
     const defaultValues = {
@@ -7,11 +8,29 @@ function Login({}) {
     }
 
     const [values, setValues] = useState(defaultValues)
+    const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+
 
     function handleSubmit(e) {
+        const userCredentials = {
+            username: values.username,
+            password: values.password
+        }
+
         e.preventDefault();
 
-        fetch("/login")
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userCredentials)
+        })
+        .then(r => r.json())
+        .then((user) => {
+            console.log(user);
+            setCurrentUser(user.username)
+        })
 
     }
 
@@ -27,8 +46,8 @@ function Login({}) {
                 <label className="col-4 my-2" htmlFor="username">Username:</label>
                 <input className="col-6 my-2" type="text" name="username" onChange={handleValueChange} value={values.username}></input>
                 <label className="col-4 my-2" htmlFor="password">Password:</label>
-                <input className="col-6 my-2" type="text" name="password" onChange={handleValueChange} value={values.password}></input>
-                <button className="col-3 my-4 btn btn-success" type="submit">Signup</button>
+                <input className="col-6 my-2" type="password" name="password" onChange={handleValueChange} value={values.password}></input>
+                <button className="col-3 my-4 btn btn-success" type="submit">Login</button>
                </div>
             </form>
         </div>

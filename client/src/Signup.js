@@ -12,6 +12,7 @@ function Signup({}) {
     const [values, setValues] = useState(defaultValues);
     const [signupComplete, setSignupComplete] = useState(false);
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     const signupCompleteDiv = 
@@ -40,14 +41,23 @@ function Signup({}) {
             }, 
             body: JSON.stringify(newUser)
         })
-        .then(r => r.json())
-        .then((createdUser) => {
-            console.log(createdUser)
+        .then((r) => {
+            if (r.ok) {
+                r.json().then((createdUser) => {
+                    console.log(createdUser);
+                    setSignupComplete(true);
+                    setCurrentUser(createdUser.username);
+                })
+            }
+            else {
+                alert("Username is already taken! Please try a different one.")
+            }
         })
+
+
+
+        
         //send signup request to backend to create a new user
-        console.log(e.target.username)
-        setSignupComplete(true);
-        setCurrentUser(e.target.username.value)
     }
 
     return ( signupComplete ? signupCompleteDiv : 
@@ -59,9 +69,9 @@ function Signup({}) {
                 <label className="col-4 my-2" htmlFor="username">Username:</label>
                 <input className="col-6 my-2" type="text" name="username" onChange={handleValueChange} value={values.username}></input>
                 <label className="col-4 my-2" htmlFor="password">Password:</label>
-                <input className="col-6 my-2" type="text" name="password" onChange={handleValueChange} value={values.password}></input>
+                <input className="col-6 my-2" type="password" name="password" onChange={handleValueChange} value={values.password}></input>
                 <label className="col-4 my-2" htmlFor="password_confirmation">Confirm Password:</label>
-                <input className="col-6 my-2" type="text" name="password_confirmation" onChange={handleValueChange} value={values.password_confirmation}></input>
+                <input className="col-6 my-2" type="password" name="password_confirmation" onChange={handleValueChange} value={values.password_confirmation}></input>
                 <button className="col-3 my-4 btn btn-success" type="submit">Signup</button>
                 <Link className=" col-12 btn btn-outline-dark" role="button" to="/login">Already a member? Login instead!
                 </Link>

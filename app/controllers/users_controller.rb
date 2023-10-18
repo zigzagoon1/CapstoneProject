@@ -12,11 +12,15 @@ before_action :authorize, only: [:show, :update, :destroy]
 
     def create
         user = User.create!(user_create_params)
-        if user.valid?
-            session[:user_id] = user.id
-            render json: user, status: :created
+        if !User.find_by(username: user.username)
+            if user.valid?
+                session[:user_id] = user.id
+                render json: user, status: :created
+            else
+                render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
+            end
         else
-            render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
+            render json: {errors: "Username already exists!"}, status: :unprocessable_entity
         end
     end
 
