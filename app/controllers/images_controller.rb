@@ -4,10 +4,6 @@ class ImagesController < ApplicationController
         render json: images
     end
 
-    def show
-
-    end
-
     private
 
     def image_params

@@ -3,6 +3,12 @@ Rails.application.routes.draw do
     resources :games
     resources :comments
     resources :images, only: [:index]
+    resources :users, only: [:index, :show, :update, :destroy]
+
+    get '/me', to: 'users#show'
+    post '/signup', to: 'users#create'
+    post '/login', to: 'sessions#create'
+    delete '/logout', to: 'sessions#destroy'
   #end
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_action :authorize, only: [:update, :destroy]
+before_action :authorize, only: [:show, :update, :destroy]
     def index
         users = User.all
         render json: user, include: {:comments, :games}
@@ -41,7 +41,5 @@ before_action :authorize, only: [:update, :destroy]
         params.permit(:name, :bio, :photo)
     end
 
-    def authorize
-        render json: {error: "Not authorized"}, status: :unauthorized unless session.include? user_id
-    end
+    def user_profile_params
 end
