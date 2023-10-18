@@ -27,7 +27,23 @@ function Signup({}) {
 
     function handleSubmit(e) {
         e.preventDefault();
-
+        const newUser = {
+            name: values.name,
+            username: values.username,
+            password: values.password,
+            password_confirmation: values.password_confirmation,
+        }
+        fetch("/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            }, 
+            body: JSON.stringify(newUser)
+        })
+        .then(r => r.json())
+        .then((createdUser) => {
+            console.log(createdUser)
+        })
         //send signup request to backend to create a new user
         console.log(e.target.username)
         setSignupComplete(true);

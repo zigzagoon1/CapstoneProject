@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 before_action :authorize, only: [:show, :update, :destroy]
     def index
         users = User.all
-        render json: user, include: {:comments, :games}
+        render json: users
     end
 
     def show
@@ -11,7 +11,7 @@ before_action :authorize, only: [:show, :update, :destroy]
     end
 
     def create
-        user = User.create(user_params)
+        user = User.create!(user_create_params)
         if user.valid?
             session[:user_id] = user.id
             render json: user, status: :created
@@ -33,13 +33,15 @@ before_action :authorize, only: [:show, :update, :destroy]
 
     private 
 
-    def user_params 
-        params.permit(:name, :username, :bio, :photo, :dob, :games_played)
+    def user_create_params 
+        params.permit(:name, :username, :password, :password_confirmation)
     end
 
     def user_params_for_update
-        params.permit(:name, :bio, :photo)
+        params.permit(:name, :bio, :dob, :photo)
     end
 
     def user_profile_params
+    end
+
 end

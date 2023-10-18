@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2023_10_14_214905) do
     t.string "photo"
     t.string "dob"
     t.integer "games_played"
+    t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
