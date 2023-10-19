@@ -46,7 +46,7 @@ function Signup({}) {
                 r.json().then((createdUser) => {
                     console.log(createdUser);
                     setSignupComplete(true);
-                    setCurrentUser(createdUser.username);
+                    setCurrentUser(createdUser);
                 })
             }
             else {
@@ -57,7 +57,6 @@ function Signup({}) {
 
 
         
-        //send signup request to backend to create a new user
     }
 
     return ( signupComplete ? signupCompleteDiv : 

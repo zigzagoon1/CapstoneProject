@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
-before_action :authorize, only: [:show, :update, :destroy]
+before_action :authorize, only: [:update, :destroy]
     def index
         users = User.all
         render json: users
     end
 
     def show
-        user = User.find_by(id: session[:user_id])
+        user = User.find_by(id: params[:id])
         render json: user
     end
 
@@ -25,7 +25,9 @@ before_action :authorize, only: [:show, :update, :destroy]
     end
 
     def update
-        #use user_params_for_update here
+        user = User.find_by(username: session[:username])
+        user.update(user_params_for_update)
+        render json: user, status: :ok
     end
 
     def destroy
