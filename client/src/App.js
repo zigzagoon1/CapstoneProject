@@ -2,7 +2,7 @@ import {CurrentUserProvider} from './context/current_user.js'
 import {PauseProvider} from './context/paused.js'
 import {Routes, Route } from 'react-router-dom'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Home from './Home.js'
 import NavBar from './NavBar.js'
 import Games from './Games.js'
@@ -10,6 +10,7 @@ import Members from './Members.js'
 import Signup from './Signup.js';
 import Login from './Login.js'
 import Account from './Account.js'
+import PlayGame from './PlayGame.js'
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
            <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/games" element={<Games />} />
+              <Route path="/games/play/:gameName" element={<PlayGame />} />
               <Route path="/users" element={<Members /> } />
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />

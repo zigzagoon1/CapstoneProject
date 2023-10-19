@@ -5,6 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+console.log("Seeding data...");
+
+
 Image.create(src: "../client/public/Images/banjo-cat.png", alt: "Cat playing the banjo", scale: 60)
 Image.create(src: "../client/public/Images/baby-elephant.png", alt: "Baby Elephant", scale: 100)
 Image.create(src: "../client/public/Images/bananas.png", alt: "Bananas", scale: 140)
@@ -23,5 +26,8 @@ Image.create(src: "../client/public/Images/rainbow.png", alt: "Rainbow", scale: 
 
 #User.create(name: "Kelly", username: "zigzag", bio: "Hi, I'm zigzag, the creator of this site!", photo: "", dob: "06/02/1994", games_played: 4, password: "greenday")
 Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards over and try to match two of the same image! You'll have to remember where the matching image is located.", rating: 4.5)
+Game.create(name: "Tic Tac Toe", genre: "Casual", description: "Choose your side- X's or O's, and try to get three in a row!", rating: 4.5)
 
 Comment.create(user_id: 1, game_id: 1, text: "I hope you're enjoying the games!", likes: 1)
+
+console.log("Seeding complete!")

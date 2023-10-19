@@ -25,9 +25,9 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def update
-        user = User.find_by(username: session[:username])
+        user = User.find_by(id: session[:user_id])
         user.update(user_params_for_update)
-        render json: user, status: :ok
+        render json: user
     end
 
     def destroy
@@ -48,6 +48,10 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def user_profile_params
+    end
+
+    def authorize
+        render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
     end
 
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :images, only: [:index, :show]
     resources :users, only: [:index, :show, :update, :destroy]
 
+    
     get '/me', to: 'users#show'
     post '/signup', to: 'users#create'
     post '/login', to: 'sessions#create'
