@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 function Account({}) {
 
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
+    const [editProfileActive, setEditProfileActive] = useState(false)
 
     // const defaultValues = {
     //     name: currentUser.name ? currentUser.name : "",
@@ -45,13 +46,12 @@ function Account({}) {
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
            <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.bio}</label>
-           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games}</label>
            <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.games_played}</label>
+           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
        </div>
 </Card>
 
-console.log(values);
 
     const editProfile = <Card id="profile" className="row justify-content-center">
         {getProfileIcon(currentUser)}
@@ -66,7 +66,6 @@ console.log(values);
 </Card>
 
 
-    const [profileType, setProfileType] = useState(profile)
 
     async function handleSignout() {
         const r = await fetch('/logout', {
@@ -77,34 +76,38 @@ console.log(values);
     }
 
     async function handleSave(e) {
-        // const updatedUser = {
-        //     ...currentUser, name: values.name, photo: values.photo, bio: values.bio
-        // }
-
-        //  await fetch(`/users/update/${currentUser.id}`, {
-        //     method: "PATCH", 
-        //     body: JSON.stringify(updatedUser),
-        // })
-        // .then((r) => {
-        //     if (r.ok) {
-        //         r.json()
-        //         .then((updatedUser) => {
-        //             console.log(updatedUser);
-        //             setCurrentUser(updatedUser);
-        //         })
-        //     }
-        // })
-        // setProfileType(profile);
+        e.preventDefault();
+        const updatedUser = {
+            ...currentUser, name: values.name, photo: values.photo, bio: values.bio,
+        };
+        console.log(updatedUser)
+         await fetch(`/users/${currentUser.id}`, {
+            method: "PATCH", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedUser),
+        })
+        .then((r) => {
+            if (r.ok) {
+                r.json()
+                .then((updated) => {
+                    console.log(updated);
+                    setCurrentUser(updated);
+                })
+            }
+        })
+        setEditProfileActive(false);
     }
 
 
     function handleEdit() {
-        setProfileType(editProfile);
+        setEditProfileActive(true);
     }
 
     return ( !currentUser? <p>No one is logged in.</p> :
         <div className="container-flex">
-            {profileType}
+            {editProfileActive ? editProfile : profile}
              <div className="row justify-content-center">
                 <Button className="btn col-3 my-2" onClick={handleSignout}>Sign Out</Button>
                 </div>
