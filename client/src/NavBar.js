@@ -28,9 +28,9 @@ function NavBar() {
                     <div className="col-3 nav-item">
                     <NavLink className="nav-link text-center" to="/games">Games</NavLink>
                     </div>
-                    <div className="col-3 nav-item">
+                    {/* <div className="col-3 nav-item">
                         <NavLink className="nav-link text-center" to="/users">Members</NavLink>
-                    </div>
+                    </div> */}
                     {currentUser[0] ? account : signup/* <div className="col-3 nav-item">
                         <NavLink className="nav-link text-center" to="/signup">Account</NavLink>
                     </div> */}

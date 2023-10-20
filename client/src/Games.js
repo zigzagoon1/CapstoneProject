@@ -18,14 +18,19 @@ function Games({}) {
         })
     }, [])
 
-    function handlePlayButtonClicked(gameName) {
+    function handleGameCardButtonClicked(gameName, play) {
         gameName = gameName.replace(/\s/g, '');
-        nav(`/games/play/${gameName}`);
+        if (play) {
+            nav(`/games/play/${gameName}`);
+        }
+        else {
+            nav(`/games/${gameName}/comments`)
+        }
     };
 
     return (
         <div>
-            <GamesList games={gamesList} playButtonClicked={handlePlayButtonClicked}/>
+            <GamesList games={gamesList} playButtonClicked={handleGameCardButtonClicked}/>
         </div>
     )
 }

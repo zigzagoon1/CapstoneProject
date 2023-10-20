@@ -2,29 +2,67 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 
-function GameCard({name, genre, description, src, playButtonClicked}) {
+function GameCard({name, genre, description, src, buttonClicked}) {
 
     const nav = useNavigate();
     function handleClick(e){
         e.preventDefault();
-        playButtonClicked(name);
-    }
+        console.log(e.target.className)
+        //TODO: hardcoded, change this to better implementation
+        if (e.target.className === "play-button btn btn-primary") {
+            buttonClicked(name, true);
+        }
+        else {
+            buttonClicked(name, false);
+        }
+    } 
 
     return (
-        <Card className='game-card container-flex border-dark rounded bg-light'>
-            <br></br> <br></br>
-            <div className='game-card-image '>
-                <img src={src} alt="Game preview"/>
+        <Card className='game-card bg-info text-white'>
+          <div className='row g-0'>
+            <div className='col-md-4'>
+              <div className='game-card-image'>
+                <img src={src} alt='Game preview' />
+              </div>
             </div>
-            <div>
-                <p className='col fw-bold'>{name}<br></br>Genre: {genre}</p>
-                <p className='col'>{description}</p>
+            <div className='col-md-8'>
+              <div className='card-body'>
+                <h5 className='card-title fw-bold'>{name}</h5>
+                <p className='card-text'>
+                  <small className='text-muted'>{genre}</small>
+                </p>
+                <p className='card-text'>{description}</p>
+                <Button className='play-button' onClick={handleClick}>
+                  Play
+                </Button>
+                <Button className='comments-button' onClick={handleClick}>
+                  Comments
+                </Button>
+              </div>
             </div>
-            <div>
-                <Button className='btn' onClick={handleClick}>Play</Button>
-            </div>
+          </div>
         </Card>
-    )
+      );
+    
+
+    // return (
+    //     <Card className='game-card container-flex rounded bg-info'>
+    //         <br></br> <br></br>
+    //         <div className='game-card-image '>
+    //             <img src={src} alt="Game preview"/>
+    //         </div>
+    //         <div>
+    //             <p className='col fw-bold'>{name}<br></br>Genre: {genre}</p>
+    //             <p className='col'>{description}</p>
+    //         </div>
+    //         <div>
+    //             <Button className='play-button' onClick={handleClick}>Play</Button>
+    //         </div>
+    //         <div>
+    //             <Button className='comments-button' onClick={handleClick}>Comments</Button>
+    //         </div>
+    //     </Card>
+    // )
 }
 
 export default GameCard;
