@@ -10,10 +10,10 @@ function GameCard({name, genre, description, src, buttonClicked}) {
         console.log(e.target.className)
         //TODO: hardcoded, change this to better implementation
         if (e.target.className === "play-button btn btn-primary") {
-            buttonClicked(name, true);
+            buttonClicked(name, 'play');
         }
         else {
-            buttonClicked(name, false);
+            buttonClicked(name, 'comments');
         }
     } 
 

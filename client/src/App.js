@@ -6,12 +6,13 @@ import React, { useEffect } from 'react'
 import Home from './Home.js'
 import NavBar from './NavBar.js'
 import Games from './Games.js'
-import Members from './Members.js'
 import Signup from './Signup.js';
 import Login from './Login.js'
 import Account from './Account.js'
 import PlayGame from './PlayGame.js'
-
+import GameComments from './GameComments.js'
+import HighScores from './HighScores.js'
+import PhaserGameConfig from './PhaserGameConfig.js'
 
 function App() {
   return (
@@ -24,13 +25,16 @@ function App() {
            <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/games" element={<Games />} />
-              <Route path="/games/play/:gameName" element={<PlayGame />} />
+              <Route path="/games/:gameName/play" element={<PlayGame />} />
               {/* <Route path="/users" element={<Members /> } /> */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/games/:gameName/comments" element={<GameComments />} />
+              <Route path="/games/:gameName/scores" element={<HighScores />} />
            </Routes>
         </div>
+        <div id="phaser-container" className='Phaser'></div>
       </PauseProvider>
 </CurrentUserProvider>
   );

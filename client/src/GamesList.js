@@ -7,14 +7,14 @@ function GamesList( {games, playButtonClicked} ) {
 
 
     const gameCardElements = games.map((game) => {
-        return <GameCard name={game.name} genre={game.genre} description={game.description} src="" 
+        return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src="" 
             buttonClicked={playButtonClicked}
         />
     })
 
     return(
         <div>
-            {gameCardElements}
+        {gameCardElements}
         </div>
     )
 }

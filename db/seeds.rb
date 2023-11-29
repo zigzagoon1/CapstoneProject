@@ -5,7 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-console.log("Seeding data...");
 
 
 Image.create(src: "../client/public/Images/banjo-cat.png", alt: "Cat playing the banjo", scale: 60)
@@ -29,5 +28,3 @@ Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards o
 Game.create(name: "Tic Tac Toe", genre: "Casual", description: "Choose your side- X's or O's, and try to get three in a row!", rating: 4.5)
 
 Comment.create(user_id: 1, game_id: 1, text: "I hope you're enjoying the games!", likes: 1)
-
-console.log("Seeding complete!")

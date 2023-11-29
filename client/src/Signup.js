@@ -26,7 +26,7 @@ function Signup({}) {
         })
     }
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const newUser = {
             name: values.name,

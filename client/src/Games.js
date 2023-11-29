@@ -18,19 +18,26 @@ function Games({}) {
         })
     }, [])
 
-    function handleGameCardButtonClicked(gameName, play) {
+    function handleGameCardButtonClicked(gameName, button) {
         gameName = gameName.replace(/\s/g, '');
-        if (play) {
-            nav(`/games/play/${gameName}`);
+        if (button === 'play') {
+            nav(`/games/${gameName}/play`);
         }
-        else {
+        else if (button === 'comments') {
             nav(`/games/${gameName}/comments`)
+        }
+        else if (button === 'scores') {
+            nav(`/games/${gameName}/scores`)
         }
     };
 
+    const gamelistElement = <GamesList games={gamesList} playButtonClicked={handleGameCardButtonClicked}/>
+    console.log(gamesList)
     return (
+        
         <div>
-            <GamesList games={gamesList} playButtonClicked={handleGameCardButtonClicked}/>
+            {gamesList === null ? null : gamelistElement}
+            
         </div>
     )
 }

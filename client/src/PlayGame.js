@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import PhaserGameConfig from "./PhaserGameConfig";
 
 function PlayGame() {
   //const nav = useNavigate();
@@ -26,7 +27,7 @@ function PlayGame() {
   }
     return (
         <div>
-            {gameComponent}
+            <PhaserGameConfig gameType={gameName}/>
         </div>
     )
 }
