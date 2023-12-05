@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import { CurrentUserContext } from "./context/current_user";
 import { Link } from "react-router-dom";
-function Signup({}) {
+function Signup() {
     const defaultValues = {
         name: "",
         username: "",

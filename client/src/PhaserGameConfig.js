@@ -5,6 +5,7 @@ import MemoryGame from './scenes/MemoryGame';
 
 //import scenes from ./scenes (once made)
 const PhaserGameConfig = ({gameType}) => {
+    let config;
     useEffect(() => {
       const config = {
         type: Phaser.AUTO,

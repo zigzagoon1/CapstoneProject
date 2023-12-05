@@ -1,7 +1,7 @@
 import React, {useEffect, useState, } from "react";
 import GamesList from "./GamesList";
-import MemoryGame from "./games/MemoryGame";
-import TicTacToe from "./games/TicTacToe";
+import MemoryGame from "./MemoryGame";
+import TicTacToe from "./TicTacToe";
 import { useNavigate } from "react-router-dom";
 
 

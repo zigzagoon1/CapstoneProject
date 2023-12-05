@@ -10,7 +10,7 @@ function PlayGame() {
 
 
   useEffect(() => {
-    import(`./games/${gameName}`).then((component) => {
+    import(`./${gameName}`).then((component) => {
         if (component && component.default) {
         setGameComponent(component.default)
         }

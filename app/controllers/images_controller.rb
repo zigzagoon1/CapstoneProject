@@ -5,7 +5,7 @@ class ImagesController < ApplicationController
     end
 
     def show
-        image = Image.find_by(id: params[:id])
+        image = Image.find_by(name: params[:name])
         render json: image, status: :ok
     end
 
