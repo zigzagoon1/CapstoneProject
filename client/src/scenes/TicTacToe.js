@@ -18,12 +18,13 @@ class TicTacToe extends Phaser.Scene {
 
     this.hasPicked = false;
     this.playerPick = null;
-    this.pickText = this.add.text(280, 200, 'Which do you pick?', {fill: '#000000', fontSize: 26})
+    this.pickText = this.add.text(200, 200, 'Which do you pick?', {fill: '#000000', fontSize: 26})
     this.pickX = this.add.image(320, 280, 'x')
     this.pickO = this.add.image(400, 280, 'o')
     this.pickX.scale *= 0.2
     this.pickX.setInteractive();
     this.pickO.setInteractive();
+
     this.pickX.on('pointerup', () => {
       this.playerPick = 'x'
       this.pickX.destroy();
@@ -39,7 +40,6 @@ class TicTacToe extends Phaser.Scene {
       this.pickText.destroy();
       this.hasPicked = true;
     })
-    this.player = null;
 
     let cellSize = 110;
     let rows = 3;
@@ -50,6 +50,7 @@ class TicTacToe extends Phaser.Scene {
       [null, null, null],
       [null, null, null],
     ];
+    this.gridDrawn = false;
     this.offsetY = (this.game.config.height - cellSize * rows) / 2;
     this.offsetX = (this.game.config.width - cellSize * cols) / 2;
 
@@ -98,76 +99,72 @@ class TicTacToe extends Phaser.Scene {
       drawOrder: 4,
     };
 
-    this.grid.animComplete = false;
-
     this.grid.drawLineDown = (line) => {
       if (line) {
-        if (line.drawing) {
-          line.currentY += 10;
-        }
-        if (line.currentY >= line.endY) {
-          line.currentY = line.endY;
-          line.drawing = false;
-        }
+          this.graphics.strokeLineShape(
+            new Geom.Line(line.startX, line.startY, line.startX, line.endY)
+          );
 
-        this.graphics.strokeLineShape(
-          new Geom.Line(line.startX, line.startY, line.startX, line.currentY)
-        );
       }
     };
 
     this.grid.drawLineAcross = (line) => {
-      if (line) {
-        if (line.drawing) {
-          line.currentX += 10;
-        }
-        if (line.currentX >= line.endX) {
-          line.currentX = line.endX;
-          line.drawing = false;
-          if (line.drawOrder === 4) {
-            this.grid.animComplete = true;
-          }
-        }
-
+        if (line) 
         this.graphics.strokeLineShape(
-          new Geom.Line(line.startX, line.startY, line.currentX, line.endY)
+          new Geom.Line(line.startX, line.startY, line.endX, line.endY)
         );
-      }
     };
+    
+    this.createZones = () => {
+     for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        const zoneX = this.offsetX + cellSize * i + cellSize / 2;
+        const zoneY = this.offsetY + cellSize * j + cellSize / 2;
+        let zone = this.add.zone(zoneX, zoneY, cellSize, cellSize);
+        this.physics.add.collider(zone, () => {console.log('zone collider')})
+        zone.setInteractive();
+        zone.on('pointerup', () => {
+          playerMove.call(this, i, j);
+        })
+      }
+    }
+    this.zones = true;
+  }
+     this.addX = (x, y) => {
+      const image = this.add.image((cellSize + this.offsetX), (cellSize + this.offsetY), this.playerPick)
+      image.scale *= 0.2;
+      image.setPosition(this.offsetX + this.grid.cellSize * x + this.grid.cellSize / 2, this.offsetY + this.grid.cellSize * y + this.grid.cellSize / 2)
+    }
 
-    this.grid.topLeft = new Geom.Rectangle(this.offsetX, this.offsetY, cellSize, cellSize)
-    this.grid.topLeft.on('pointerup', () => {
-      console.log('top left')
-    })
-    // this.grid.topLeft.setInteractive();
-    // this.grid.topLeft.on('pointerup', () => {
-    //   console.log('top left')
-    // })
+    this.addO = (x, y) => {
+      const image = this.add.image(100, 100, 'o');
+      image.scale *= 1.3
+      image.setPosition(this.offsetX + this.grid.cellSize * x + this.grid.cellSize / 2, this.offsetY + this.grid.cellSize * y + this.grid.cellSize / 2)
+      console.log("x " + image.x + " y " + image.y)
+    }
 
-    // this.playerMove(location) {
-      
-    // }
-  
-    // this.x = this.add.image(200, 200, 'x')
-    // this.x.scale *= 0.2;
-    // this.halfX = this.grid.cellSize / 2;
-    // this.halfY = this.grid.cellSize / 2;
-    // console.log(this.grid.cellSize + this.offsetX -this.halfX);
-    // this.x.setPosition((this.grid.cellSize * 2) - this.halfX + this.offsetX, this.grid.cellSize + this.halfY + this.offsetY)
-
-
-    // this.o = this.add.image(200, 200, 'o');
-    // this.o.scale *= 1.3;
-    // this.o.setPosition(this.grid.cellSize - this.halfX + this.offsetX, this.grid.cellSize + this.halfY + this.offsetY)
-    // this.grid.leftX = this.grid.cellSize + this.grid.halfX;
-    // this.grid.topX = this.grid.cellSize + this.grid.halfX;
-    // this.grid.leftO = this.grid.cellSize + this.grid.radius;
-    // this.grid.topO = this.grid.cellSize - this.grid.radius;
+    function playerMove(xIndex, yIndex) {
+      if (!this.grid[xIndex][yIndex]) {
+        this.grid[xIndex][yIndex] = this.playerPick
+        if (this.playerPick === 'x') {
+          this.addX(xIndex, yIndex)
+        }
+        else {
+          console.log(this.playerPick); 
+          this.addO(xIndex, yIndex)
+        }
+      }
+    }
   }
 
   update() {
     // Game loop - logic that runs every frame
-    if (!this.grid.animComplete && this.hasPicked) {
+    if (this.hasPicked && !this.gridDrawn) {
+      this.grid.drawLineDown(this.grid.lineY1);
+      this.grid.drawLineDown(this.grid.lineY2);
+      this.grid.drawLineAcross(this.grid.lineX1);
+      this.grid.drawLineAcross(this.grid.lineX2);
+      this.gridDrawn = true;
       if (this.grid.lineY1.drawing) {
         this.grid.drawLineDown(this.grid.lineY1);
 
@@ -193,6 +190,8 @@ class TicTacToe extends Phaser.Scene {
       if (this.grid.lineX2.drawing) {
         this.grid.drawLineAcross(this.grid.lineX2);
       }
+      if (!this.zones)
+      this.createZones();
     }
   }
 }
