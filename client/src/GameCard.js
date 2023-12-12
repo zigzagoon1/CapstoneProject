@@ -15,7 +15,7 @@ function GameCard({name, genre, description, src, buttonClicked}) {
         else {
             buttonClicked(name, 'comments');
         }
-    } 
+    }
 
     return (
         <Card className='game-card bg-info text-white'>

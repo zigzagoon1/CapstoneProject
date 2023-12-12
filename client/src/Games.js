@@ -32,7 +32,6 @@ function Games({}) {
     };
 
     const gamelistElement = <GamesList games={gamesList} playButtonClicked={handleGameCardButtonClicked}/>
-    console.log(gamesList)
     return (
         
         <div>

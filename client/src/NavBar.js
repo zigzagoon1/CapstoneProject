@@ -17,7 +17,6 @@ function NavBar() {
         <NavLink className="nav-link text-center" to="/account">Account</NavLink>
     </div>
 
-    console.log(currentUser);
     return(
         <div className="container-flex bg-light">
             <div className="row">
