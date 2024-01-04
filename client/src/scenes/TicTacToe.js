@@ -367,19 +367,22 @@ class TicTacToe extends Phaser.Scene {
       this.gameOver = true;
       this.grid.aiLocked = true;
       this.grid.isLocked = true;
-
+      this.graphics.clear();
+      let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Image)
+      allSprites.forEach(x => x.destroy());
       if (tie) {
         console.log("Game Over! No winner!")
-        this.graphics.clear();
-        let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Image)
-        allSprites.forEach(x => x.destroy());
-        this.add.text(175, 200, "Game Over: It's a tie!", {fill: "#000000", fontSize: 32})
+        this.add.text(175, 200, "Game Over: It's a tie!", {fill: "#000000", fontSize: 32});
+        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
       }
       if (winner === "player") {
-        console.log("Game Over! You win!!")
+        this.add.text(175, 200, "Game Over! You win!!", {fill: '#000000', fontSize: 32})
+        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
+
       } 
       else if (winner === "AI") {
-        console.log("Game Over! You lose!")
+        this.add.text(175, 200, "Game Over! You lose!", {fill: '#000000', fontSize: 32})
+        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
       }
     }
   }
