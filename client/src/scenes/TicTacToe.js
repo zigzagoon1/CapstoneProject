@@ -178,42 +178,54 @@ class TicTacToe extends Phaser.Scene {
 
     //place 'x' or 'o' for player on zone click
     this.playerMove = (xIndex, yIndex) => {
-
-      if (!this.grid[xIndex][yIndex] && !this.grid.isLocked) {
-        this.grid[xIndex][yIndex] = this.playerPick
-        if (this.playerPick === 'x') {
-          this.addX(xIndex, yIndex)
+      if (!this.isLocked && !this.gameOver) {
+        if (!this.grid[xIndex][yIndex] && !this.grid.isLocked) {
+          this.grid[xIndex][yIndex] = this.playerPick
+          if (this.playerPick === 'x') {
+            this.addX(xIndex, yIndex)
+          }
+          else {
+            console.log(this.playerPick); 
+            this.addO(xIndex, yIndex)
+          }
         }
         else {
-          console.log(this.playerPick); 
-          this.addO(xIndex, yIndex)
+          console.log('zone already used')
         }
-      }
-      else {
-        console.log('zone already used')
-      }
-      if (this.checkWin()) {
-        //win logic
-        console.log('player wins');
-      }
-      else if (this.checkTie()) {
-        console.log("tie")
-        //tie logic
-      }
-      else {
-        changeTurn();
+        if (this.checkWin() === this.playerPick) {
+          this.endGame(false, "Player");
+        }
+        else if (this.checkWin() === this.aiPick) {
+          this.endGame(false, "AI");
+        }
+        else if (this.checkTie()) {
+          this.endGame(true);
+        }
+        else {
+          changeTurn();
+        }
       }
     }
 
     //variables and logic for ai's move
-    this.AIMove = () => {
-      if (this.checkWin() || this.checkTie()) {
-        this.gameOver = true;
-        this.grid.aiLocked = true;
-        this.grid.isLocked = true;
-        console.log("game over win or tie")
-        return;
-      }
+    this.AIMove = async () => {
+      let win = new Promise(function(resolve) {
+        resolve("Success");
+      }).then(() => {
+        if (this.checkWin() === this.aiPick) {
+          this.endGame(false, "AI");
+          return;
+        }
+        else if (this.checkWin() === this.playerPick) {
+          this.endGame(false, "Player");
+          return;
+        }
+        else if (this.checkTie()) {
+          this.endGame(true);
+          return;
+        }
+      })
+
       const [xIndex, yIndex] = GetMoveLocationAILogic.call(this);
       if (!this.grid[xIndex][yIndex] && !this.grid.aiLocked) {
         this.grid[xIndex][yIndex] = this.aiPick;
@@ -226,30 +238,22 @@ class TicTacToe extends Phaser.Scene {
           console.log('ai adds x')
         }
       }
-      if (this.checkWin()) {
-        //win logic
-        const winRow = this.checkWin();
-        if (winRow[0] === this.playerMove) {
-          this.win("player")
+      win = new Promise(function(resolve, reject) {
+        resolve("Success");
+      }).then(() => {
+        if (this.checkWin() === this.playerPick) {
+          this.endGame(false, "Player"); 
+        }
+        else if (this.checkWin === this.aiPick) {
+          this.endGame(false, "AI");
+        }
+        else if (this.checkTie()) {
+          this.endGame(true);
         }
         else {
-          this.win("AI");
+          changeTurn();
         }
-        this.gameOver = true;
-        this.grid.aiLocked = true;
-        this.grid.isLocked = true;
-        console.log('game over win')
-      }
-      else if (this.checkTie()) {
-        //tie logic
-        this.gameOver = true;
-        this.grid.aiLocked = true;
-        this.grid.isLocked = true;
-        this.tie();
-      }
-      else {
-        changeTurn();
-      }
+      })
     }
 
      const GetMoveLocationAILogic = () => {
@@ -310,22 +314,16 @@ class TicTacToe extends Phaser.Scene {
       for (let i = 0; i < cols; i++) {
         //Check rows and columns
         if (this.areAllEqual(this.grid[i][0], this.grid[i][1], this.grid[i][2])) {
-          console.log('win');
           return this.grid[i][0]
         }
-
         if (this.areAllEqual(this.grid[0][i], this.grid[1][i], this.grid[2][i])) {
-          console.log('win');
           return this.grid[0][i];
         }
-
         //Check diagonals
         if (this.areAllEqual(this.grid[0][0], this.grid[1][1], this.grid[2][2])) {
-          console.log('win');
           return this.grid[0][0];
         }
         if (this.areAllEqual(this.grid[0][2], this.grid[1][1], this.grid[2][0])) {
-          console.log('win');
           return this.grid[0][2];
         }
       }
@@ -341,9 +339,7 @@ class TicTacToe extends Phaser.Scene {
           }
         }
       }
-      console.log(count)
       if (count < 2 && this.checkWin() === null) {
-        console.log('tie');
         return true;
       }
     }
@@ -367,20 +363,24 @@ class TicTacToe extends Phaser.Scene {
       return args.every(val => val !== null && val === args[0]);
     }
 
+    this.endGame = (tie, winner = null) => {
+      this.gameOver = true;
+      this.grid.aiLocked = true;
+      this.grid.isLocked = true;
 
-    this.win = (winner) => {
+      if (tie) {
+        console.log("Game Over! No winner!")
+        this.graphics.clear();
+        let allSprites = this.children.list.filter(x => x instanceof Phaser.GameObjects.Image)
+        allSprites.forEach(x => x.destroy());
+        this.add.text(175, 200, "Game Over: It's a tie!", {fill: "#000000", fontSize: 32})
+      }
       if (winner === "player") {
         console.log("Game Over! You win!!")
       } 
-      else {
+      else if (winner === "AI") {
         console.log("Game Over! You lose!")
       }
-
-      
-    }
-
-    this.tie = () => {
-      console.log("Game Over! No winner!")
     }
   }
 
