@@ -11,7 +11,7 @@ class MemoryGame extends Phaser.Scene {
 
   create() {
     // Basic scene setup, like creating sprites
-    this.add.text(100, 100, 'Goodbye Phaser!', { fill: '#0f0' });
+    this.add.text(175, 200, 'Coming soon!', { fill: '#000000', fontSize: 48 });
   }
 
   update() {
