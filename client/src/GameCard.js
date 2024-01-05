@@ -9,12 +9,7 @@ function GameCard({name, genre, description, src, buttonClicked}) {
         e.preventDefault();
         console.log(e.target.className)
         //TODO: hardcoded, change this to better implementation
-        if (e.target.className === "play-button btn btn-primary") {
-            buttonClicked(name, 'play');
-        }
-        else {
-            buttonClicked(name, 'comments');
-        }
+        buttonClicked(name, 'play');
     }
 
     return (
@@ -32,11 +27,8 @@ function GameCard({name, genre, description, src, buttonClicked}) {
                   <small className='text-muted'>{genre}</small>
                 </p>
                 <p className='card-text'>{description}</p>
-                <Button className='play-button' onClick={handleClick}>
+                <Button className='play-button col-3' onClick={handleClick}>
                   Play
-                </Button>
-                <Button className='comments-button' onClick={handleClick}>
-                  Comments
                 </Button>
               </div>
             </div>

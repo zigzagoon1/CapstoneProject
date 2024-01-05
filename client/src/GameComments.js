@@ -1,9 +1,9 @@
 import React from "react";
 
-function GameComments() {
+function GameComments({game, comments}) {
     return(
         <div>
-
+            Test
         </div>
     )
 }

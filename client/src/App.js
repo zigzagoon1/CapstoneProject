@@ -2,7 +2,7 @@ import {CurrentUserProvider} from './context/current_user.js'
 import {PauseProvider} from './context/paused.js'
 import {Routes, Route } from 'react-router-dom'
 
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Home from './Home.js'
 import NavBar from './NavBar.js'
 import Games from './Games.js'
@@ -15,6 +15,15 @@ import HighScores from './HighScores.js'
 import PhaserGameConfig from './PhaserGameConfig.js'
 
 function App() {
+  const [gamesList, setGamesList] = useState([]);
+
+  useEffect(() => {
+    fetch("/games")
+    .then(r => r.json())    
+    .then((allGames) => {
+        setGamesList(allGames);
+    })
+}, [])
   return (
     <CurrentUserProvider>
       <PauseProvider>
@@ -24,13 +33,12 @@ function App() {
            <NavBar />
            <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/games" element={<Games />} />
+              <Route path="/games" element={<Games games={gamesList}/>} />
               <Route path="/games/:gameName/play" element={<PlayGame />} />
               {/* <Route path="/users" element={<Members /> } /> */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
               <Route path="/account" element={<Account />} />
-              <Route path="/games/:gameName/comments" element={<GameComments />} />
               <Route path="/games/:gameName/scores" element={<HighScores />} />
            </Routes>
         </div>

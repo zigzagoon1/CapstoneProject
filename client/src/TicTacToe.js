@@ -1,5 +1,6 @@
 import React from "react";
 import PhaserGameConfig from "./PhaserGameConfig";
+import EventEmitter from "./EventEmitter";
 
 function TicTacToe() {
     return(
