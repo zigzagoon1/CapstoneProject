@@ -28,7 +28,7 @@ function PlayGame({games}) {
     return (
         <div>
             <PhaserGameConfig gameType={gameName}/>
-            <GameComments game={gameName}/>
+            <GameComments game={games.find(game => game.name === gameName)}/>
         </div>
     )
 }

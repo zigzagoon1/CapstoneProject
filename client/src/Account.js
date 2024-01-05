@@ -2,7 +2,7 @@ import React, {useState, useContext} from "react";
 import { Button, Card } from "react-bootstrap";
 import { CurrentUserContext } from "./context/current_user";
 import { FaUser } from "react-icons/fa";
-function Account({}) {
+function Account() {
 
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
     const [editProfileActive, setEditProfileActive] = useState(false)
@@ -41,15 +41,15 @@ function Account({}) {
 
     const profile = <Card>
     <h1 className="text-center">Profile</h1>
-       <div id="profile" className="row justify-content-center">
+    <div id="profile" className="row justify-content-center">
            {getProfileIcon(currentUser)}
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
            <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.bio}</label>
            <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.games_played}</label>
-           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games}</label>
+           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games.map((game) => game.name)}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
-       </div>
+    </div>
 </Card>
 
 

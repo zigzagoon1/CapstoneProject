@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :games
     resources :comments
     resources :images, only: [:index, :show]
-    resources :users, only: [:index, :show, :update, :destroy]
+    resources :users
 
     get '/phaser.min.js', to: 'application#phaser'
     get '/me', to: 'users#show'

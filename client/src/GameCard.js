@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 
-function GameCard({name, genre, description, src, buttonClicked}) {
+function GameCard({name, genre, description, src, alt, scale, buttonClicked}) {
 
     const nav = useNavigate();
     function handleClick(e){
@@ -12,12 +12,13 @@ function GameCard({name, genre, description, src, buttonClicked}) {
         buttonClicked(name, 'play');
     }
 
+    console.log(src)
     return (
         <Card className='game-card bg-info text-white'>
           <div className='row g-0'>
             <div className='col-md-4'>
               <div className='game-card-image'>
-                <img src={src} alt='Game preview' />
+                <img src={src} alt={alt} style={{scale: scale}} />
               </div>
             </div>
             <div className='col-md-8'>

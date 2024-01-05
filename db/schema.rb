@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2023_10_14_214905) do
     t.integer "game_id"
     t.string "text"
     t.integer "likes"
+    t.string "datetime"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -34,6 +35,7 @@ ActiveRecord::Schema.define(version: 2023_10_14_214905) do
   end
 
   create_table "images", force: :cascade do |t|
+    t.string "name"
     t.string "src"
     t.string "alt"
     t.integer "scale"

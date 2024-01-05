@@ -5,6 +5,7 @@ class CreateComments < ActiveRecord::Migration[6.1]
       t.integer :game_id
       t.string :text
       t.integer :likes
+      t.string :datetime
 
       t.timestamps
     end

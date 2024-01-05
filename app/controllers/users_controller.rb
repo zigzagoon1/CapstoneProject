@@ -31,7 +31,9 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def destroy
-
+        user = User.find_by(id: session[:user_id])
+        user.destroy
+        head :no_content
     end
 
 

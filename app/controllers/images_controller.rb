@@ -5,7 +5,7 @@ class ImagesController < ApplicationController
     end
 
     def show
-        image = Image.find_by(name: params[:name])
+        image = Image.find_by(name: params[:id])
         render json: image, status: :ok
     end
 
@@ -13,6 +13,6 @@ class ImagesController < ApplicationController
     private
 
     def image_params
-        params.permit(:src, :alt, :scale)
+        params.permit(:name, :src, :alt, :scale)
     end
 end
