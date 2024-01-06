@@ -28,8 +28,10 @@ Image.create(name: "Black O", src: "../client/public/Images/Black_o.png", alt: "
 Image.create(name: "TicTacToePreview", src: "../client/public/Images/TicTacToePreview.png", alt: "TicTacToe Preview Image", scale: 100)
 
 User.create(name: "Kelly", username: "zigzag", bio: "Hi, I'm zigzag, the creator of this site!", photo: "", dob: "06/02/1994", games_played: 4, password: "greenday")
+User.create(name: "Test", username: "Test", bio: "test", photo: "", dob: "", games_played: 1, password: "test" )
 
 Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards over and try to match two of the same image! You'll have to remember where the matching image is located.", rating: 4.5)
 Game.create(name: "Tic Tac Toe", genre: "Casual", description: "Choose your side- X's or O's, and try to get three in a row!", rating: 4.5)
 
-Comment.create(user_id: 1, game_id: 2, text: "I hope you're enjoying the games!", likes: 1, datetime: "1/1/2024 12:00")
+Comment.create(user_id: 1, game_id: 2, text: "I hope you're enjoying the games!", likes: 1, datetime: "January 1, 2024 12:00")
+Comment.create(user_id: 2, game_id: 2, text: "Test second user comment", likes: 1, datetime: "January 6, 2024")

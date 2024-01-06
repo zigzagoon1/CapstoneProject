@@ -11,6 +11,7 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def create
+        #signup
         user = User.create!(user_create_params)
         if !User.find_by(username: user.username)
             if user.valid?

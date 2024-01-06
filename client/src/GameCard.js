@@ -7,7 +7,6 @@ function GameCard({name, genre, description, src, alt, scale, buttonClicked}) {
     const nav = useNavigate();
     function handleClick(e){
         e.preventDefault();
-        console.log(e.target.className)
         //TODO: hardcoded, change this to better implementation
         buttonClicked(name, 'play');
     }
