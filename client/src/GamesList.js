@@ -13,25 +13,16 @@ function GamesList( {games, playButtonClicked} ) {
         })
     }, [])
 
-
-
-    const gameCardElements = games.map((game) => {
-        game.name = game.name.replace(/\s/g, '');
-        const gamePreview = images.find(image => image.src.includes(`${game.name}Preview`));
-        if (gamePreview !== undefined) {
-            return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src={gamePreview.src} alt={""} scale={""} 
-            buttonClicked={playButtonClicked} />
-        }
-        // else {
-        //     return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description}  
-        //     buttonClicked={playButtonClicked} />
-        // }
-        
-    })
-
     return(
         <div>
-        {gameCardElements}
+            {games ? games.map((game) => {
+                game.name = game.name.replace(/\s/g, '');
+                const gamePreview = images.find(image => image.src.includes(`${game.name}Preview`));
+                if (gamePreview !== undefined) {
+                    return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src={gamePreview.src} alt={""} scale={""} 
+                    buttonClicked={playButtonClicked} />
+                }
+            }) : null}
         </div>
     )
 }

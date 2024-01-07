@@ -9,6 +9,8 @@ class ImagesController < ApplicationController
         render json: image, status: :ok
     end
 
+    
+
 
     private
 

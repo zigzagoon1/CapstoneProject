@@ -6,8 +6,8 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def show
-        user = User.find_by(id: params[:id])
-        render json: user
+        user = User.find_by(id: session[:user_id])
+        render json: user, status: :ok
     end
 
     def create
@@ -21,7 +21,7 @@ before_action :authorize, only: [:update, :destroy]
                 render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
             end
         else
-            render json: {errors: "Username already exists!"}, status: :unprocessable_entity
+            render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
         end
     end
 

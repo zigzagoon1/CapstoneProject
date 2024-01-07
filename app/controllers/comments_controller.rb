@@ -18,17 +18,24 @@ before_action :authorize, only: [:create, :update, :destroy]
     end
 
     def update
-        
+        comment = Comment.find(params[:id])
+        comment.update(comment_update_params)
     end
 
     def destroy
-
+        comment = Comment.find(params[:id])
+        comment.destroy
+        head :no_content
     end
 
     private 
 
     def comment_params
         params.permit(:user_id, :game_id, :text, :likes, :datetime)
+    end
+
+    def comment_update_params
+        params.permit(:text, :likes)
     end
 
 

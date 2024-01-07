@@ -4,18 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { CurrentUserProvider } from './context/current_user';
 
 const router = createBrowserRouter([{
   path: "/*",
-  element: <App />,
+  element: (
+   <CurrentUserProvider>
+      <App />
+    </CurrentUserProvider>
+    ),
 }]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
     <RouterProvider router={router} />
-  
-
 )
 
 // ReactDOM.render(

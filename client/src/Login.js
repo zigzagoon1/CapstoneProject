@@ -23,17 +23,14 @@ function Login({}) {
     </form>
 </div>
 
-
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         if (!currentUser) {
             const userCredentials = {
                 username: values.username,
                 password: values.password
             }
-    
-    
-            await fetch("/login", {
+            fetch("/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

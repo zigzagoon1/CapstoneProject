@@ -1,11 +1,13 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import { CurrentUserContext } from "./context/current_user";
 function NavBar() {
 
     const currentUser = useContext(CurrentUserContext);
 
-    
+    useEffect(() => {
+        console.log(currentUser)
+    }, [currentUser])
 
     const signup =                    
     <div className="col-3 nav-item">
@@ -16,6 +18,8 @@ function NavBar() {
     <div className="col-3 nav-item">
         <NavLink className="nav-link text-center" to="/account">Account</NavLink>
     </div>
+
+    const nav = currentUser[0] === undefined ? signup : currentUser[0] === null ? signup : account
 
     return(
         <div className="container-flex bg-light">
@@ -30,7 +34,7 @@ function NavBar() {
                     {/* <div className="col-3 nav-item">
                         <NavLink className="nav-link text-center" to="/users">Members</NavLink>
                     </div> */}
-                    {currentUser[0] ? account : signup/* <div className="col-3 nav-item">
+                    {nav/* <div className="col-3 nav-item">
                         <NavLink className="nav-link text-center" to="/signup">Account</NavLink>
                     </div> */}
                 </div>

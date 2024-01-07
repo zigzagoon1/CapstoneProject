@@ -2,12 +2,11 @@ import React, { useEffect, useState, useContext } from "react";
 import GameComment from "./GameComment";
 import { CurrentUserContext } from "./context/current_user";
 
-function GameComments({game}) {
+function GameComments({game, users}) {
     const [comments, setComments] = useState([]);
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext)
 
     useEffect(() => {
-        //setComments(game.comments)
         fetch(`/comments`)
         .then((r => r.json()))
         .then((comments) => {
@@ -15,12 +14,13 @@ function GameComments({game}) {
         })
     }, [])
 
+    
+
     function addCommentToGame(commentInfo){
-        console.log(currentUser.id)
         commentInfo = {
             ...commentInfo,
             user_id: currentUser.id,
-            game_id: game.id
+            game_id: game.id,
         }
         fetch(`/comments`, {
             method: "POST", 
@@ -30,13 +30,35 @@ function GameComments({game}) {
             body: JSON.stringify(commentInfo)
         })
         .then((r) => r.json())
-        .then((game) => {
-            console.log(game);
+        .then((comment) => {
+            setComments({...comments, comment})
         })
     }
+
+    function handleDelete(id) {
+        fetch(`/comments/${id}`, {
+            method: "DELETE"
+        })
+        fetch("/comments")
+        .then((r) => r.json())
+        .then((updatedComments) => {
+            setComments(updatedComments)
+        })
+    }
+
+    function handleEdit(id) {
+
+    }
+
+
     return(
         <div>
-            {comments === undefined ? null : comments.map((comment)=> {return <GameComment key={comment.id} id={comment.id} user_id={comment.user_id} text={comment.text} likes={comment.likes} datetime={comment.datetime}/> })}
+            {comments === undefined || comments === null || comments[0] === null ? null : comments.map((comment)=> {
+                const commentUser = users.find((user) => user.id === comment.user_id)
+                const username = commentUser.username
+                const userID = commentUser.id
+                return <GameComment key={comment.id} id={comment.id} user_id={userID}  username={username}
+             text={comment.text} likes={comment.likes} datetime={comment.datetime} onEdit={handleEdit} onDelete={handleDelete}/> })}
             <GameComment isAddCommentCard={true} addCommentToGame={addCommentToGame}/> 
         </div>
     )

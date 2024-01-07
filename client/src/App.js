@@ -1,8 +1,8 @@
-import {CurrentUserProvider} from './context/current_user.js'
+import {CurrentUserContext, CurrentUserProvider} from './context/current_user.js'
 import {PauseProvider} from './context/paused.js'
 import {Routes, Route } from 'react-router-dom'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Home from './Home.js'
 import NavBar from './NavBar.js'
 import Games from './Games.js'
@@ -15,17 +15,23 @@ import HighScores from './HighScores.js'
 import PhaserGameConfig from './PhaserGameConfig.js'
 
 function App() {
-  const [gamesList, setGamesList] = useState([]);
+
+  const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
 
   useEffect(() => {
-    fetch("/games")
-    .then(r => r.json())    
-    .then((allGames) => {
-        setGamesList(allGames);
+    fetch ("/me")
+    .then((r) => r.json())
+    .then((user) => {
+        if (user !== null && user !== undefined) {
+            setCurrentUser(user);
+        }
     })
 }, [])
+
+
+    
+
   return (
-    <CurrentUserProvider>
       <PauseProvider>
         <div className='container justify-content-center border rounded bg-light'>
           <h1 className='text-center bg-success'>Zigzag's Games</h1>
@@ -33,8 +39,8 @@ function App() {
            <NavBar />
            <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/games" element={<Games games={gamesList}/>} />
-              <Route path="/games/:gameName/play" element={<PlayGame games={gamesList} />} />
+              <Route path="/games" element={<Games />} />
+              <Route path="/games/:gameName/play" element={<PlayGame  />} />
               {/* <Route path="/users" element={<Members /> } /> */}
               <Route path="/signup" element={<Signup />} />
               <Route path="/login" element={<Login />} />
@@ -44,7 +50,6 @@ function App() {
         </div>
         <div id="phaser-container" className='Phaser'></div>
       </PauseProvider>
-</CurrentUserProvider>
   );
 }
 

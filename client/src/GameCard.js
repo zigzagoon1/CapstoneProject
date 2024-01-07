@@ -4,14 +4,12 @@ import { Button, Card } from 'react-bootstrap';
 
 function GameCard({name, genre, description, src, alt, scale, buttonClicked}) {
 
-    const nav = useNavigate();
     function handleClick(e){
         e.preventDefault();
         //TODO: hardcoded, change this to better implementation
         buttonClicked(name, 'play');
     }
 
-    console.log(src)
     return (
         <Card className='game-card bg-info text-white'>
           <div className='row g-0'>

@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import { CurrentUserContext } from "./context/current_user";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Account from "./Account";
 function Signup() {
     const defaultValues = {
         name: "",
@@ -13,8 +14,11 @@ function Signup() {
     const [signupComplete, setSignupComplete] = useState(false);
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
     const [showPassword, setShowPassword] = useState(false);
+    const nav = useNavigate();
 
-
+    if (currentUser) {
+        nav('/account')
+    }
     const signupCompleteDiv = 
     <div id="sign-up-complete" className="container-flex text-center my-5">
         <p>Signup Complete! Welcome, {currentUser}!</p>
@@ -50,16 +54,13 @@ function Signup() {
                 })
             }
             else {
-                alert("Username is already taken! Please try a different one.")
+                alert("Username is taken, or error processing request.")
             }
-        })
-
-
-
-        
+        })    
     }
 
-    return ( signupComplete ? signupCompleteDiv : 
+    return ( 
+        signupComplete ? signupCompleteDiv : 
         <div id="signup" className="container-flex m-4 p-4">
             <form onSubmit={handleSubmit}>
                <div className="row justify-content-center">

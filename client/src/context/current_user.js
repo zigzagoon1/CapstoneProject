@@ -4,7 +4,6 @@ const CurrentUserContext = createContext();
 
 function CurrentUserProvider({children}) {
     const [currentUser, setCurrentUser] = useState();
-
     const value = [currentUser, setCurrentUser];
 
     return (

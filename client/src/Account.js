@@ -1,23 +1,18 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Button, Card } from "react-bootstrap";
 import { CurrentUserContext } from "./context/current_user";
 import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 function Account() {
 
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
     const [editProfileActive, setEditProfileActive] = useState(false)
+    const nav = useNavigate();
 
-    // const defaultValues = {
-    //     name: currentUser.name ? currentUser.name : "",
-    //     bio: currentUser.bio ? currentUser.bio : "",
-    //     // photo: currentUser.photo ? currentUser.photo : ""
-    // }
-
-    
-    const [values, setValues] = useState({name: currentUser.name, bio: currentUser.bio ? currentUser.bio : ""})
+    const [values, setValues] = useState({name: currentUser ? currentUser.name : "", bio: currentUser ? currentUser.bio : ""})
 
     const getProfileIcon = (currentUser) => {
-        if(currentUser.photo) {
+        if(currentUser && currentUser.photo) {
             console.log("user photo not null")
             return <img id="user-profile-img" src={currentUser.photo.src} alt="Profile"/>;
         }
@@ -39,7 +34,7 @@ function Account() {
 
     }
 
-    const profile = <Card>
+    const profile = currentUser ? <Card>
     <h1 className="text-center">Profile</h1>
     <div id="profile" className="row justify-content-center">
            {getProfileIcon(currentUser)}
@@ -50,7 +45,8 @@ function Account() {
            <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games.map((game) => game.name)}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
     </div>
-</Card>
+</Card> :
+<Card></Card>
 
 
     const editProfile = <Card id="profile" className="row justify-content-center">
@@ -73,6 +69,7 @@ function Account() {
         });
         console.log(r)
         setCurrentUser(null);   
+        nav('/')
     }
 
     async function handleSave(e) {
@@ -80,7 +77,6 @@ function Account() {
         const updatedUser = {
             ...currentUser, name: values.name, photo: values.photo, bio: values.bio,
         };
-        console.log(updatedUser)
          await fetch(`/users/${currentUser.id}`, {
             method: "PATCH", 
             headers: {

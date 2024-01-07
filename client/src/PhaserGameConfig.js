@@ -26,7 +26,7 @@ const PhaserGameConfig = ({gameType}) => {
       };
   
       new Phaser.Game(config);
-    }, [gameType]);
+    }, []);
   
 
     const getScene = (gameType) => {
