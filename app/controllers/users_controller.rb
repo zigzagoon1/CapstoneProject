@@ -6,8 +6,12 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def show
-        user = User.find_by(id: session[:user_id])
-        render json: user, status: :ok
+        if session[:user_id]
+            user = User.find_by(id: session[:user_id])
+            render json: user, status: :ok
+        else
+            render json: {errors: "No user logged in"}, status: :unprocessable_entity
+        end
     end
 
     def create

@@ -2,10 +2,17 @@ import React, { useContext, useState, } from "react";
 import { Button, Card } from "react-bootstrap";
 import { CurrentUserContext } from "./context/current_user";
 
-function GameComment({id, user_id, username, text, likes, datetime, isAddCommentCard, addCommentToGame, onEdit, onDelete}) {
+function GameComment({id, user_id, username, text, serverLikes, datetime, isAddCommentCard, addCommentToGame, onEdit, onDelete}) {
+    if (!serverLikes) {
+        serverLikes = 0;
+    }
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
-    const [commentText, setCommentText] = useState('');
-    const handleClick = (e) => {
+    const [likes, setLikes] = useState(serverLikes);
+    const [commentText, setCommentText] = useState(text);
+    const [firstClick, setFirstClick] = useState(true);
+    const [isEditingComment, setIsEditingComment] = useState(false);
+
+    const handleAddCommentClick = (e) => {
         if (isAddCommentCard) {
             const p = document.getElementById(`${id}`)
             p.hidden = true;
@@ -22,8 +29,43 @@ function GameComment({id, user_id, username, text, likes, datetime, isAddComment
     function handleChange(e) {
         setCommentText(e.target.value)
     }
-    function handleLike(e) {
 
+
+    function handleSaveComment(e) {
+        console.log(e.target)
+        console.log(document.getElementById('thumbs-up'))
+        if (e.target.id === 'thumbs-up') {
+            if (firstClick) {
+                setLikes(likes + 1);
+                setFirstClick(false);
+            }
+            else if (!firstClick) {
+                setLikes(likes - 1);
+                setFirstClick(true);
+            }
+        }
+        let numLikes = likes;
+        //if likes not serverlikes, do likes
+        if (firstClick && currentUser) {
+            numLikes += 1;
+            setFirstClick(false);
+        }
+        else if (!firstClick) {
+            numLikes = serverLikes - 1;
+            if (numLikes < 0) {
+                numLikes = 0;
+            }
+            setFirstClick(true);
+        }
+        console.log(commentText);
+        const newComment = {
+            "text": commentText,
+            "likes": likes,
+        }
+        if (isEditingComment) {
+        handleEdit()
+        }
+        onEdit(newComment, id)
     }
 
     function handleAddCommentSubmit(e) {
@@ -82,16 +124,29 @@ function GameComment({id, user_id, username, text, likes, datetime, isAddComment
     }
 
     function handleEdit(e) {
+        setIsEditingComment(!isEditingComment);
+        const p = document.getElementById(`${id}`);
+        const textarea = document.getElementById(`${id}-2`);
 
+        if (isEditingComment) {
+            p.hidden = false;
+            p.innerText = commentText;
+            textarea.hidden = true;
+        }
+        else {
+            p.hidden = true;
+            textarea.hidden = false;
+        }
     }
+    
 
-    function handleDelete() {
+    function handleDelete(e) {
         onDelete(id);
     }
 
-    const likeOrLikes = likes === 1 ? "like" : "likes";
-    if (likes === undefined || likes === null) {
-        likes = 0;
+    const likeOrLikes = serverLikes === 1 ? "like" : "likes";
+    if (serverLikes === undefined || serverLikes === null) {
+        serverLikes = 0;
     }
     return (
         <div>
@@ -99,22 +154,22 @@ function GameComment({id, user_id, username, text, likes, datetime, isAddComment
                 <Card className="row border border-dark d-flex">
                         <Card.Header id="username" className="fw-bold col-12">{username ? `${username} says:` : "New comment"}</Card.Header>
                             <Card.Body className="col">
-                                <p id={`${id}`} className="" onClick={handleClick} >{text === undefined ? 'Click here to add a comment' : `${text}`}</p>
+                                <p id={`${id}`} className="" onClick={handleAddCommentClick} >{text === undefined ? 'Click here to add a comment' : `${commentText}`}</p>
                                 <textarea id={`${id}-2`} type="text" name="comment-text" onChange={handleChange} hidden={true} value={commentText}></textarea>
                                 <Card.Footer className="row">
                                     {isAddCommentCard ? 
                                     <Button type="submit" className="col-2 border-dark bg-light text-black text-dark p-0 m-1 border-2"> Add Comment </Button> :   
                                       <div className="row"> 
-                                         <i className="col-1 py-1 far fa-thumbs-up position-absolute" onClick={handleLike}></i>
+                                         <i id="thumbs-up" className="col-1 py-1 far fa-thumbs-up position-absolute" onClick={handleSaveComment}></i>
                                          <p className="col-3 m-0 px-5">{likes} {likeOrLikes}</p>      
                                          <p className="col-sm-4 col-4 m-auto px-0 mx-0">{datetime}</p>
                                     </div>}
                                 </Card.Footer>
-                                {!isAddCommentCard ? currentUser.id === user_id ?
+                                {!isAddCommentCard ? currentUser ? currentUser.id === user_id ?
                                     <div className="row">
-                                        <Button onClick={handleEdit} className="col-2 p-0 bg-light text-dark border-dark border-2 m-2 my-3">Edit Comment</Button> 
+                                        <Button onClick={isEditingComment? handleSaveComment : handleEdit} className="col-2 p-0 bg-light text-dark border-dark border-2 m-2 my-3">{isEditingComment ? "Save Comment" : "Edit Comment"}</Button> 
                                         <Button onClick={handleDelete}className="col-3 p-0 bg-light text-dark border-dark border-2 m-2 my-3">Delete Comment</Button>
-                                    </div>: null : null}
+                                    </div>: null : null : null}
                             </Card.Body>
                 </Card>
             </form>

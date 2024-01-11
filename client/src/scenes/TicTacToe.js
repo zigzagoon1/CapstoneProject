@@ -6,8 +6,8 @@ class TicTacToe extends Phaser.Scene {
 
   preload() {
     // Load any assets here
-    this.load.image('x', '/Images/Black_x.png')
-    this.load.image('o', '/Images/Black_o.png')
+    this.load.image('x', '/images/Black_x.png')
+    this.load.image('o', '/images/Black_o.png')
     //this.load.image('o', '')
   }
 

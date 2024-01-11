@@ -5,10 +5,6 @@ function NavBar() {
 
     const currentUser = useContext(CurrentUserContext);
 
-    useEffect(() => {
-        console.log(currentUser)
-    }, [currentUser])
-
     const signup =                    
     <div className="col-3 nav-item">
         <NavLink className="nav-link text-center" to="/signup">Account</NavLink>

@@ -20,11 +20,15 @@ function App() {
 
   useEffect(() => {
     fetch ("/me")
-    .then((r) => r.json())
-    .then((user) => {
-        if (user !== null && user !== undefined) {
-            setCurrentUser(user);
-        }
+    .then((r) => {
+      if (r.ok) {
+        r.json().then((user) => {
+          setCurrentUser(user);
+        })
+      }
+      else {
+        console.log(r)
+      }
     })
 }, [])
 

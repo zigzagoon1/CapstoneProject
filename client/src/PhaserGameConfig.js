@@ -38,7 +38,6 @@ const PhaserGameConfig = ({gameType}) => {
         }
     }
 
-    console.log(gameType)
     return <div id="phaser-game" className='text-center'></div>;
   };
   

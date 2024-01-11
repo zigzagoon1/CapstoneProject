@@ -5,23 +5,26 @@ function GamesList( {games, playButtonClicked} ) {
     const [currentUser, setCurrentUser] = useContext(CurrentUserContext)
     const [images, setImages] = useState([]);
 
-    useEffect(() => {
-        fetch("/images")
-        .then((r => r.json()))
-        .then((allImages) => {
-            setImages(allImages);
-        })
-    }, [])
+    console.log(games)
+    // useEffect(() => {
+    //     fetch("/images")
+    //     .then((r => r.json()))
+    //     .then((allImages) => {
+    //         setImages(allImages);
+    //     })
+    // }, [])
 
     return(
         <div>
             {games ? games.map((game) => {
                 game.name = game.name.replace(/\s/g, '');
-                const gamePreview = images.find(image => image.src.includes(`${game.name}Preview`));
-                if (gamePreview !== undefined) {
-                    return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src={gamePreview.src} alt={""} scale={""} 
-                    buttonClicked={playButtonClicked} />
-                }
+                const gamePreview = `/images/${game.name}Preview.png`;
+                console.log(gamePreview);
+                return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src={gamePreview} alt={""} scale={""} 
+                buttonClicked={playButtonClicked} />
+                // if (gamePreview !== undefined) {
+
+                // }
             }) : null}
         </div>
     )

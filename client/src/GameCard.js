@@ -10,15 +10,16 @@ function GameCard({name, genre, description, src, alt, scale, buttonClicked}) {
         buttonClicked(name, 'play');
     }
 
+    
     return (
         <Card className='game-card bg-info text-white'>
           <div className='row g-0'>
             <div className='col-md-4'>
               <div className='game-card-image'>
-                <img src={src} alt={alt} style={{scale: scale}} />
+                <img className='game-preview col-10' src={src} alt={alt}/>
               </div>
             </div>
-            <div className='col-md-8'>
+            <div className='col-md-8 col-6'>
               <div className='card-body'>
                 <h5 className='card-title fw-bold'>{name}</h5>
                 <p className='card-text'>

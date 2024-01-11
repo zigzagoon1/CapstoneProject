@@ -20,6 +20,7 @@ before_action :authorize, only: [:create, :update, :destroy]
     def update
         comment = Comment.find(params[:id])
         comment.update(comment_update_params)
+        render json: comment
     end
 
     def destroy
@@ -31,11 +32,11 @@ before_action :authorize, only: [:create, :update, :destroy]
     private 
 
     def comment_params
-        params.permit(:user_id, :game_id, :text, :likes, :datetime)
+        params.permit(:text, :likes, :datetime)
     end
 
     def comment_update_params
-        params.permit(:text, :likes)
+        params.require(:comment).permit(:text, :likes)
     end
 
 
