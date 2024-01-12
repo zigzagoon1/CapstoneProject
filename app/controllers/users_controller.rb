@@ -31,6 +31,11 @@ before_action :authorize, only: [:update, :destroy]
 
     def update
         user = User.find_by(id: session[:user_id])
+        if params[:photo]
+            user.photo.purge if user.photo.attached?
+            puts params.inspect
+            user.photo.attach(params[:photo])
+        end
         user.update(user_params_for_update)
         render json: user
     end

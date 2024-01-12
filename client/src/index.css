@@ -27,3 +27,8 @@ img.game-preview {
 .needs-background {
   background-image: url('../public/images/background.jpg');
 }
+
+#user-profile-img {
+  max-width: 25%;
+  max-height: 25%;
+}

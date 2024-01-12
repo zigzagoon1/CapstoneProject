@@ -13,24 +13,24 @@ function Account() {
 
     const getProfileIcon = (currentUser) => {
         if(currentUser && currentUser.photo) {
-            console.log("user photo not null")
-            return <img id="user-profile-img" src={currentUser.photo.src} alt="Profile"/>;
+            console.log(currentUser.photo)
+            return <img id="user-profile-img" src={currentUser.photo} alt="Profile"/>;
         }
         else {
             return <FaUser id="user-profile-img"  size="100"/>
         }
     }
 
-    function handleValueChange(e) {
-        // if (fieldName === "photo") {
-        //     const selectedFile = e.target.files[0];
-        //     setValues({...values, [fieldName]: selectedFile})
-        // }
-        //else {
+    function handleValueChange(e, fieldName) {
+        if (fieldName === "photo") {
+            const selectedFile = e.target.files[0];
+            setValues({...values, [fieldName]: selectedFile})
+        }
+        else {
             const {name, value} = e.target;
             setValues({...values, [name]: value,
             });
-        //}
+        }
 
     }
 
@@ -52,7 +52,7 @@ function Account() {
     const editProfile = <Card id="profile" className="row justify-content-center">
         {getProfileIcon(currentUser)}
         <form>
-        <input type="file" accept="image/jpeg, image/png" onChange={(e) => handleValueChange(e, "photo")}></input>
+        <input type="file" name="photo" accept="image/jpeg, image/png" onChange={(e) => handleValueChange(e, "photo")}></input>
     <label className="col-12 text-center" htmlFor="name">Name: </label>
     <input className="col-3" type="text" name="name" onChange={handleValueChange} value={values.name}/>
     <label className="col-12 text-center" htmlFor="bio" >Bio: </label>
@@ -74,15 +74,19 @@ function Account() {
 
     async function handleSave(e) {
         e.preventDefault();
-        const updatedUser = {
-            ...currentUser, name: values.name, photo: values.photo, bio: values.bio,
-        };
+        const formData = new FormData();
+
+        formData.append('name', values.name);
+        formData.append('bio', values.bio);
+
+        if (values.photo) {
+            console.log(e.target.files)
+            formData.append('photo', values.photo)
+        }
+        console.log(currentUser.id)
          await fetch(`/users/${currentUser.id}`, {
             method: "PATCH", 
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedUser),
+            body: formData,
         })
         .then((r) => {
             if (r.ok) {
