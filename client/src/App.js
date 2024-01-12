@@ -37,8 +37,8 @@ function App() {
 
   return (
       <PauseProvider>
-        <div className='container justify-content-center border rounded bg-light'>
-          <h1 className='text-center bg-success'>Zigzag's Games</h1>
+        <div className='container justify-content-center border rounded bg-light needs-background'>
+          <h1 className='text-center bg-success needs-background'>Zigzag's Games</h1>
           <h5 className='text-center text-danger'>Submit, Play and Review Games!</h5>
            <NavBar />
            <Routes>

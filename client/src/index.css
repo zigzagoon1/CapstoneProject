@@ -5,7 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('../public/images/geometric\ background.jpg');
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -20,4 +22,8 @@ code {
 img.game-preview {
   max-height: 100%;
   max-width: 100%;
+}
+
+.needs-background {
+  background-image: url('../public/images/background.jpg');
 }
