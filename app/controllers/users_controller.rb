@@ -19,6 +19,9 @@ before_action :authorize, only: [:update, :destroy]
         user = User.create!(user_create_params)
         if user.valid?
             session[:user_id] = user.id
+            profile = Profile.create(name: params[:name], username: params[:username], user_id: user.id)
+            user.profile = profile
+            user.save
             render json: user, status: :created
         else
             render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
@@ -27,10 +30,6 @@ before_action :authorize, only: [:update, :destroy]
 
     def update
         user = User.find_by(id: session[:user_id])
-        if params[:photo]
-            puts params.inspect
-            user.photo.attach(params[:photo])
-        end
         if user.update(user_params_for_update)
             render json: user, status: :ok
         else 
@@ -54,10 +53,7 @@ before_action :authorize, only: [:update, :destroy]
     end
 
     def user_params_for_update
-        params.permit(:name, :bio, :dob, :photo)
-    end
-
-    def user_profile_params
+        params.permit(:name)
     end
 
     def authorize

@@ -1,6 +1,5 @@
 class User < ApplicationRecord
     has_secure_password
-    has_one_attached :photo
     
     validates :name, presence: true, length: {minimum: 2, maximum: 25}
     validates :username, uniqueness: true
@@ -11,4 +10,5 @@ class User < ApplicationRecord
 
     has_many :comments
     has_many :games, through: :comments
+    has_one :profile
 end

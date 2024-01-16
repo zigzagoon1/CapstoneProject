@@ -27,9 +27,22 @@ Image.create(name: "Black O", src: "../client/public/Images/Black_o.png", alt: "
 
 Image.create(name: "TicTacToePreview", src: "../client/public/Images/TicTacToePreview.png", alt: "TicTacToe Preview Image", scale: 100)
 
-main_user = User.create!(name: "Kelly", username: "zigzag", bio: "Hi, I'm zigzag, the creator of this site!", dob: "06/02/1994", games_played: 4, password: "greenday")
-photo_path = Rails.root.join('lib', 'assets', 'rainbow-cats.png')
-main_user.photo.attach(io: File.open(photo_path), filename: 'rainbow-cat.png', content_type: 'image/png')
+main_user = User.create!(name: "Kelly", username: "zigzag", password: "greenday")
+
+if main_user.persisted?
+    profile = Profile.create(name: main_user.name, username: main_user.username, user_id: main_user.id)
+
+    if profile.persisted?
+        photo_path = Rails.root.join('lib', 'assets', 'rainbow-cats.png')
+        profile.photo.attach(io: File.open(photo_path), filename: 'rainbow-cat.png', content_type: 'image/png')
+    else
+        puts "Failed to create profile for user."
+    end
+else
+    puts "Failed to create main user."
+end
+
+
 #User.create(name: "Test", username: "Test", bio: "test", photo: "", dob: "", games_played: 1, password: "test" )
 
 Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards over and try to match two of the same image! You'll have to remember where the matching image is located.", rating: 4.5)

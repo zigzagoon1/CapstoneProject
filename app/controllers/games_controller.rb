@@ -32,8 +32,11 @@ class GamesController < ApplicationController
     def update_comment
         comment = Comment.find(params[:comment_id])
         if session[:user_id] == comment.user_id || params[:likes] != comment.likes
-            comment.update(update_comment_params)
-            render json: comment
+            if comment.update(update_comment_params)
+                render json: comment
+            else
+                render json: {errors: "Comment invalid"}, status: :unprocessable_entity
+            end
         else
             render json: {errors: "Unauthorized"}, status: :unauthorized
         end
@@ -54,8 +57,7 @@ class GamesController < ApplicationController
     end
 
     def update
-        game = Game.find_by(id: params[:id])
-        game.update(game_params)  
+
     end
 
     def destroy

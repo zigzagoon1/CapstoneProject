@@ -42,7 +42,7 @@ function Account() {
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
            <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.bio}</label>
            <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.games_played}</label>
-           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games.map((game) => game.name)}</label>
+           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games ? currentUser.games.map((game) => game.name) : ''}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
     </div>
 </Card> :
@@ -82,7 +82,7 @@ function Account() {
         if (values.photo) {
             formData.append('photo', values.photo)
         }
-         await fetch(`/users/${currentUser.id}`, {
+         await fetch(`/users/${currentUser.id}/profile`, {
             method: "PATCH", 
             body: formData,
         })
