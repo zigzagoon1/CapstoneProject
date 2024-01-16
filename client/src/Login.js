@@ -1,6 +1,6 @@
 import React, {useState, useContext} from "react";
 import { CurrentUserContext } from "./context/current_user";
-
+import Account from "./Account";
 function Login({}) {
     const defaultValues = {
         username: "",
@@ -54,11 +54,7 @@ function Login({}) {
         setValues({...values, [name]: value,
         })
     }
-    return ( !showAccount ? formDiv : 
-        <div className="justify-content-center">
-            <p className="text-center">Login Successful!</p>
-        </div>
-    )
+    return ( !showAccount ? formDiv : <Account /> )
 }
 
 

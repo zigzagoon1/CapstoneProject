@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { CurrentUserContext } from "./context/current_user";
 import { Link, useNavigate } from "react-router-dom";
 import Account from "./Account";
@@ -16,12 +16,15 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const nav = useNavigate();
 
-    if (currentUser) {
-        nav('/account')
-    }
+    useEffect(() => {
+        if (currentUser) {
+            nav('/account')
+        }
+    })
+
     const signupCompleteDiv = 
     <div id="sign-up-complete" className="container-flex text-center my-5">
-        <p>Signup Complete! Welcome, {currentUser}!</p>
+        <p>Signup Complete! Welcome, {currentUser ? currentUser.username : null}!</p>
     </div>
 
     function handleValueChange(e) {
@@ -49,12 +52,13 @@ function Signup() {
             if (r.ok) {
                 r.json().then((createdUser) => {
                     console.log(createdUser);
-                    setSignupComplete(true);
                     setCurrentUser(createdUser);
+                    setSignupComplete(true);
+
                 })
             }
             else {
-                alert("Username is taken, or error processing request.")
+                alert("Username is taken. Please try another one.")
             }
         })    
     }

@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-before_action :authorize, only: [:create, :update, :destroy]
 
     def index
         comments = Comment.all
@@ -9,24 +8,6 @@ before_action :authorize, only: [:create, :update, :destroy]
     def show
         comment = Comment.find(params[:id])
         render json: comment, status: :ok
-    end
-
-    def create
-        comment = Comment.create!(comment_params)
-        #comment.user_id = session[:user_id]
-        render json: comment, status: :created
-    end
-
-    def update
-        comment = Comment.find(params[:id])
-        comment.update(comment_update_params)
-        render json: comment
-    end
-
-    def destroy
-        comment = Comment.find(params[:id])
-        comment.destroy
-        head :no_content
     end
 
     private 

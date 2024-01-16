@@ -78,12 +78,10 @@ function Account() {
 
         formData.append('name', values.name);
         formData.append('bio', values.bio);
-
+        console.log(values.photo)
         if (values.photo) {
-            console.log(e.target.files)
             formData.append('photo', values.photo)
         }
-        console.log(currentUser.id)
          await fetch(`/users/${currentUser.id}`, {
             method: "PATCH", 
             body: formData,
@@ -95,6 +93,9 @@ function Account() {
                     console.log(updated);
                     setCurrentUser(updated);
                 })
+            }
+            else {
+                alert("Error updating profile.")
             }
         })
         setEditProfileActive(false);

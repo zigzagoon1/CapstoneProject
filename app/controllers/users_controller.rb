@@ -17,13 +17,9 @@ before_action :authorize, only: [:update, :destroy]
     def create
         #signup
         user = User.create!(user_create_params)
-        if !User.find_by(username: user.username)
-            if user.valid?
-                session[:user_id] = user.id
-                render json: user, status: :created
-            else
-                render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
-            end
+        if user.valid?
+            session[:user_id] = user.id
+            render json: user, status: :created
         else
             render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
         end
@@ -32,12 +28,14 @@ before_action :authorize, only: [:update, :destroy]
     def update
         user = User.find_by(id: session[:user_id])
         if params[:photo]
-            user.photo.purge if user.photo.attached?
             puts params.inspect
             user.photo.attach(params[:photo])
         end
-        user.update(user_params_for_update)
-        render json: user
+        if user.update(user_params_for_update)
+            render json: user, status: :ok
+        else 
+            render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
+        end
     end
 
     def destroy

@@ -27,7 +27,6 @@ function App() {
         })
       }
       else {
-        console.log(r)
       }
     })
 }, [])

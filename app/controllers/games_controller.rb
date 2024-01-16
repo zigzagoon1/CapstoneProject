@@ -22,19 +22,31 @@ class GamesController < ApplicationController
         comment.game_id = game.id
         comment.user_id = session[:user_id]
         comment.save
-        render json: comment, status: :created
+        if comment.valid?
+            render json: comment, status: :created
+        else
+            render json: {errors: comment.errors.full_messages}, status: :unprocessable_entity
+        end
     end
 
     def update_comment
         comment = Comment.find(params[:comment_id])
-        comment.update(update_comment_params)
-        render json: comment
+        if session[:user_id] == comment.user_id || params[:likes] != comment.likes
+            comment.update(update_comment_params)
+            render json: comment
+        else
+            render json: {errors: "Unauthorized"}, status: :unauthorized
+        end
     end
 
     def destroy_comment
         comment = Comment.find(params[:comment_id])
-        comment.destroy
-        head :no_content
+        if session[:user_id] == comment.user_id
+            comment.destroy
+            head :no_content
+        else
+            render json: {errors: "Unauthorized"}, status: :unauthorized
+        end
     end
 
     def create

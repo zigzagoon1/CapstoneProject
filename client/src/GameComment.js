@@ -32,8 +32,6 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
 
 
     function handleSaveComment(e) {
-        console.log(e.target)
-        console.log(document.getElementById('thumbs-up'))
         if (e.target.id === 'thumbs-up') {
             if (firstClick) {
                 setLikes(likes + 1);
