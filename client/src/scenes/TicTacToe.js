@@ -373,17 +373,21 @@ class TicTacToe extends Phaser.Scene {
       if (tie) {
         console.log("Game Over! No winner!")
         this.add.text(175, 200, "Game Over: It's a tie!", {fill: "#000000", fontSize: 32});
-        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
+
       }
       if (winner === "player") {
         this.add.text(175, 200, "Game Over! You win!!", {fill: '#000000', fontSize: 32})
-        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
 
       } 
       else if (winner === "AI") {
         this.add.text(175, 200, "Game Over! You lose!", {fill: '#000000', fontSize: 32})
-        this.add.text(172, 250, "Refresh to play again.", {fill: '#000000', fontSize: 32});
+
       }
+      const playAgain = this.add.text(172, 250, "Click here to play again", {fill: '#000000', fontSize: 32});
+      playAgain.setInteractive()
+      playAgain.on('pointerup', (e) => {
+        this.scene.restart();
+      })
     }
   }
 

@@ -71,6 +71,10 @@ function GameComments({game, users}) {
             body: JSON.stringify(newComment)
         }).then((r) => r.json())
         .then((updatedComment) => {
+            console.log(updatedComment);
+            fetch(`/games/${game.id}/comments`)
+            .then((r) => r.json())
+            .then((comments) => setGameComments(comments))
         })
     }
 
@@ -81,8 +85,9 @@ function GameComments({game, users}) {
                 const commentUser = users.find((user) => user.id === comment.user_id)
                 const username = commentUser.username
                 const userID = commentUser.id
+                console.log(comment.likes)
                 return <GameComment key={comment.id} id={comment.id} user_id={userID}  username={username}
-             text={comment.text} likes={comment.likes} datetime={comment.datetime} onEdit={handleEdit} onDelete={handleDelete}/> }) : null}
+             text={comment.text} serverLikes={comment.likes} datetime={comment.datetime} onEdit={handleEdit} onDelete={handleDelete}/> }) : null}
             <GameComment isAddCommentCard={true} addCommentToGame={addCommentToGame}/> 
         </div>
     )

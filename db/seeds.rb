@@ -49,4 +49,4 @@ Game.create(name: "Memory Game", genre: "Casual", description: "Flip the cards o
 Game.create(name: "Tic Tac Toe", genre: "Casual", description: "Choose your side- X's or O's, and try to get three in a row!", rating: 4.5)
 
 Comment.create(user_id: 1, game_id: 2, text: "I hope you're enjoying the games!", likes: 1, datetime: "January 1, 2024 12:00")
-Comment.create(user_id: 2, game_id: 2, text: "Test second user comment", likes: 1, datetime: "January 6, 2024")
+#Comment.create(user_id: 2, game_id: 2, text: "Test second user comment", likes: 1, datetime: "January 6, 2024")

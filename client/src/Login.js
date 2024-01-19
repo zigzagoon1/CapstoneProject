@@ -45,6 +45,9 @@ function Login({}) {
                         setShowAccount(true);
                     })
                 }
+                else {
+                    alert("Error logging in. Please check your username and password and try again.")
+                }
             })
         }
     }

@@ -20,50 +20,33 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
             textarea.hidden = false;
         }
     }
-
-    const addCommentButton = 
-    <Button className="col-4 bg-dark ">
-        Add Comment
-    </Button>
-
     function handleChange(e) {
         setCommentText(e.target.value)
     }
 
 
     function handleSaveComment(e) {
+        let numLikes = likes;
         if (e.target.id === 'thumbs-up') {
             if (firstClick) {
-                setLikes(likes + 1);
+                numLikes = likes + 1;
                 setFirstClick(false);
             }
             else if (!firstClick) {
-                setLikes(likes - 1);
+                numLikes = likes - 1;
                 setFirstClick(true);
             }
         }
-        let numLikes = likes;
-        //if likes not serverlikes, do likes
-        if (firstClick && currentUser) {
-            numLikes += 1;
-            setFirstClick(false);
-        }
-        else if (!firstClick) {
-            numLikes = serverLikes - 1;
-            if (numLikes < 0) {
-                numLikes = 0;
-            }
-            setFirstClick(true);
-        }
-        console.log(commentText);
+
         const newComment = {
             "text": commentText,
-            "likes": likes,
+            "likes": numLikes,
         }
         if (isEditingComment) {
         handleEdit()
         }
         onEdit(newComment, id)
+        setLikes(numLikes);
     }
 
     function handleAddCommentSubmit(e) {
@@ -142,10 +125,7 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
         onDelete(id);
     }
 
-    const likeOrLikes = serverLikes === 1 ? "like" : "likes";
-    if (serverLikes === undefined || serverLikes === null) {
-        serverLikes = 0;
-    }
+    const likeOrLikes = likes === 1 ? "like" : "likes";
     return (
         <div>
             <form id={`${id}-form`} className="container-fluid" onSubmit={handleAddCommentSubmit}>
