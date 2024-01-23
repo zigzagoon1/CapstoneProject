@@ -53,7 +53,7 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
         e.preventDefault();
 
         const dateObject = new Date();
-
+        console.log(dateObject)
         let month;
         switch (dateObject.getMonth()) {
             default:  month = null;
@@ -87,9 +87,10 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
         const day = dateObject.getDate();
         const year = dateObject.getFullYear();
         const date = `${month} ${day}, ${year}`;
-        const time = " at " + dateObject.getHours() + ":" + dateObject.getMinutes();
+        const time = " " + dateObject.getHours() + ":" + dateObject.getMinutes();
 
         const datetime = date + time;
+        console.log(datetime)
         const newCommentInfo = {
             text: commentText,
             likes: 0,

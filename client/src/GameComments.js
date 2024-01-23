@@ -10,7 +10,7 @@ function GameComments({game, users}) {
         fetch(`/games/${game.id}/comments`)
         .then((r => r.json()))
         .then((comments) => {
-            comments.sort((a, b) => b.id - a.id)
+            comments = comments.sort((a, b) => b.id - a.id)
             setGameComments(comments);
         })
     }, [])
@@ -26,7 +26,9 @@ function GameComments({game, users}) {
         .then((r) => {
          if (r.ok) {
             r.json().then((comment) => {
-                setGameComments([...gameComments, comment])
+                let newComments = [...gameComments, comment];
+                newComments = newComments.sort((a, b) => b.id - a.id)
+                setGameComments(newComments)
             })
          }   
          else {
@@ -53,6 +55,8 @@ function GameComments({game, users}) {
                 .then((r) => r.json())
                 .then((updatedComments) => {
                     console.log(updatedComments)
+                    updatedComments = updatedComments.sort((a, b) => b.id - a.id)
+                    
 
                     setGameComments(updatedComments)
                 })
