@@ -24,7 +24,7 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
         setCommentText(e.target.value)
     }
 
-
+    
     function handleSaveComment(e) {
         let numLikes = likes;
         if (e.target.id === 'thumbs-up') {

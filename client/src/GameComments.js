@@ -56,8 +56,6 @@ function GameComments({game, users}) {
                 .then((updatedComments) => {
                     console.log(updatedComments)
                     updatedComments = updatedComments.sort((a, b) => b.id - a.id)
-                    
-
                     setGameComments(updatedComments)
                 })
             }
@@ -65,7 +63,6 @@ function GameComments({game, users}) {
     }
 
     //TODO: handle error with catch or conditional
-    //TODO: update game object rather than comments array
     function handleEdit(newComment, id) {
         console.log(newComment)
         fetch(`/games/${game.id}/comments/${id}`, {
@@ -77,9 +74,10 @@ function GameComments({game, users}) {
         }).then((r) => r.json())
         .then((updatedComment) => {
             console.log(updatedComment);
-            fetch(`/games/${game.id}/comments`)
-            .then((r) => r.json())
-            .then((comments) => setGameComments(comments))
+            const newComments = [...gameComments];
+            const commentIndex = gameComments.findIndex(c => c.id === id);
+            newComments[commentIndex] = {...newComments[commentIndex], updatedComment}
+            setGameComments(newComments)
         })
     }
 
