@@ -72,8 +72,6 @@ ActiveRecord::Schema.define(version: 2024_01_16_162746) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.string "username"
-    t.string "name"
     t.string "dob"
     t.string "bio"
     t.integer "games_played"

@@ -30,7 +30,7 @@ Image.create(name: "TicTacToePreview", src: "../client/public/Images/TicTacToePr
 main_user = User.create!(name: "Kelly", username: "zigzag", password: "greenday")
 
 if main_user.persisted?
-    profile = Profile.create(name: main_user.name, username: main_user.username, user_id: main_user.id)
+    profile = Profile.create(user_id: main_user.id)
 
     if profile.persisted?
         photo_path = Rails.root.join('lib', 'assets', 'rainbow-cats.png')

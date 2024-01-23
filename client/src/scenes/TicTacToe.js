@@ -391,9 +391,6 @@ class TicTacToe extends Phaser.Scene {
     }
   }
 
-
-
-
   update() {
     // Game loop - logic that runs every frame
     if (this.hasPicked && !this.gridDrawn) {

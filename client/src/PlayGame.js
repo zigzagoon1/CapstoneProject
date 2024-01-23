@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PhaserGameConfig from "./PhaserGameConfig";
 import GameComments from './GameComments'
+import { CurrentUserContext } from "./context/current_user";
 
 function PlayGame() {
   const gameParams = useParams();
@@ -9,8 +10,17 @@ function PlayGame() {
   const games = useLocation();
   const [gameComponent, setGameComponent] = useState(null);
   const [users, setUsers] = useState([])
-
+  const currentUser = useContext(CurrentUserContext);
+  const [firstLoad, setFirstLoad] = useState(true)
   const thisGame = games.state.find((game) => game.name === gameName);
+
+  if (firstLoad) {
+    if (currentUser && currentUser.profile) {
+      currentUser.profile.games_played += 1;
+      setFirstLoad(false);
+    }
+
+  }
 
   useEffect(() => {
     import(`./${gameName}`).then((component) => {

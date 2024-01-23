@@ -19,9 +19,13 @@ before_action :authorize, only: [:update, :destroy]
         user = User.create!(user_create_params)
         if user.valid?
             session[:user_id] = user.id
-            profile = Profile.create(name: params[:name], username: params[:username], user_id: user.id)
-            user.profile = profile
-            user.save
+            profile = Profile.create(user_id: user.id, bio: "", dob: "", games_played: 0)
+            if profile.valid?
+                user.profile = profile
+                user.save
+            else
+                render json: {errors: profile.errors.full_messages}, status: :unprocessable_entity
+            end
             render json: user, status: :created
         else
             render json: {errors: user.errors.full_messages}, status: :unprocessable_entity

@@ -6,13 +6,6 @@ function GamesList( {games, playButtonClicked} ) {
     const [images, setImages] = useState([]);
 
     console.log(games)
-    // useEffect(() => {
-    //     fetch("/images")
-    //     .then((r => r.json()))
-    //     .then((allImages) => {
-    //         setImages(allImages);
-    //     })
-    // }, [])
 
     return(
         <div>

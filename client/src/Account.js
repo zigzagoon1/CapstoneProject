@@ -9,7 +9,7 @@ function Account() {
     const [editProfileActive, setEditProfileActive] = useState(false)
     const nav = useNavigate();
 
-    const [values, setValues] = useState({name: currentUser ? currentUser.name : "", bio: currentUser ? currentUser.bio : ""})
+    const [values, setValues] = useState({bio: currentUser ? currentUser.profile ? currentUser.profile.bio : "" : ""})
 
     const getProfileIcon = (currentUser) => {
         if(currentUser && currentUser.photo) {
@@ -34,15 +34,15 @@ function Account() {
 
     }
 
+    console.log(currentUser.profile)
     const profile = currentUser ? <Card>
     <h1 className="text-center">Profile</h1>
     <div id="profile" className="row justify-content-center">
            {getProfileIcon(currentUser)}
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
-           <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.bio}</label>
-           <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.games_played}</label>
-           <label className="col-12 text-center" htmlFor="games">Games: {currentUser.games ? currentUser.games.map((game) => game.name) : ''}</label>
+           <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.profile ? currentUser.profile.bio : ""}</label>
+           <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.profile ? currentUser.profile.games_played : ""}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
     </div>
 </Card> :
@@ -53,8 +53,6 @@ function Account() {
         {getProfileIcon(currentUser)}
         <form>
         <input type="file" name="photo" accept="image/jpeg, image/png" onChange={(e) => handleValueChange(e, "photo")}></input>
-    <label className="col-12 text-center" htmlFor="name">Name: </label>
-    <input className="col-3" type="text" name="name" onChange={handleValueChange} value={values.name}/>
     <label className="col-12 text-center" htmlFor="bio" >Bio: </label>
     <input className="col-12" type="text" name="bio" onChange={handleValueChange} value={values.bio} />
     <Button className="btn col-2 my-2" onClick={handleSave}>Save Profile</Button>
@@ -76,9 +74,7 @@ function Account() {
         e.preventDefault();
         const formData = new FormData();
 
-        formData.append('name', values.name);
         formData.append('bio', values.bio);
-        console.log(values.photo)
         if (values.photo) {
             formData.append('photo', values.photo)
         }
@@ -91,7 +87,7 @@ function Account() {
                 r.json()
                 .then((updated) => {
                     console.log(updated);
-                    setCurrentUser(updated);
+                    setCurrentUser({...currentUser, profile:updated});
                 })
             }
             else {

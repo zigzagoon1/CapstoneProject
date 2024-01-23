@@ -10,7 +10,7 @@ function GameComments({game, users}) {
         fetch(`/games/${game.id}/comments`)
         .then((r => r.json()))
         .then((comments) => {
-            // comments.sort((a, b) => {a.datetime - b.datetime})
+            comments.sort((a, b) => b.id - a.id)
             setGameComments(comments);
         })
     }, [])
@@ -53,6 +53,7 @@ function GameComments({game, users}) {
                 .then((r) => r.json())
                 .then((updatedComments) => {
                     console.log(updatedComments)
+
                     setGameComments(updatedComments)
                 })
             }
@@ -85,7 +86,7 @@ function GameComments({game, users}) {
                 const commentUser = users.find((user) => user.id === comment.user_id)
                 const username = commentUser.username
                 const userID = commentUser.id
-                console.log(comment.likes)
+                console.log(comment.id)
                 return <GameComment key={comment.id} id={comment.id} user_id={userID}  username={username}
              text={comment.text} serverLikes={comment.likes} datetime={comment.datetime} onEdit={handleEdit} onDelete={handleDelete}/> }) : null}
             <GameComment isAddCommentCard={true} addCommentToGame={addCommentToGame}/> 

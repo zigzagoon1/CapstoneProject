@@ -27,6 +27,6 @@ class ProfilesController < ApplicationController
     private 
 
     def profile_params_for_update
-        params.permit(:name, :bio, :dob, :photo)
+        params.permit(:bio, :dob, :photo, :games_played)
     end
 end

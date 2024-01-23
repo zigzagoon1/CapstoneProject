@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 function Games() {
 
     const [gamesList, setGamesList] = useState([]);
-    const [users, setUsers] = useState([])
     useEffect(() => {
         fetch("/games")
         .then((r) => r.json())
