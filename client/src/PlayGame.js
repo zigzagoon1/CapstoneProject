@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import PhaserGameConfig from "./PhaserGameConfig";
 import GameComments from './GameComments'
 import { CurrentUserContext } from "./context/current_user";
+import EventEmitterSingleton from "./EventEmitter";
 
 function PlayGame() {
   const gameParams = useParams();
@@ -10,16 +11,34 @@ function PlayGame() {
   const games = useLocation();
   const [gameComponent, setGameComponent] = useState(null);
   const [users, setUsers] = useState([])
-  const currentUser = useContext(CurrentUserContext);
-  const [firstLoad, setFirstLoad] = useState(true)
+  const [currentUser, setCurrentUser] = useContext(CurrentUserContext);
   const thisGame = games.state.find((game) => game.name === gameName);
 
-  if (firstLoad) {
-    if (currentUser && currentUser.profile) {
-      currentUser.profile.games_played += 1;
-      setFirstLoad(false);
-    }
 
+  function handleGamePlayed() {
+    console.log("event captured")
+    if (currentUser && currentUser.profile) {
+      
+      fetch(`/users/${currentUser.id}/profile`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          games_played: currentUser.profile.games_played + 1,
+        })
+      })
+      .then((r) => {
+        if (r.ok) {
+          r.json().then((updatedProfile) => {
+            console.log(updatedProfile.games_played)
+            const userNew = {...currentUser, profile: { games_played: updatedProfile.games_played}}
+            setCurrentUser(userNew)
+          })
+        }
+      })
+      console.log(currentUser.games_played)
+    }
   }
 
   useEffect(() => {
@@ -47,7 +66,7 @@ function PlayGame() {
   }
     return (
         <div>
-            <PhaserGameConfig gameType={gameName}/>
+            <PhaserGameConfig gameType={gameName} onGamePlayed={handleGamePlayed}/>
             <GameComments game={thisGame} users={users}/>
         </div>
     )

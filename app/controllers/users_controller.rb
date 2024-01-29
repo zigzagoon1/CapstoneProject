@@ -16,17 +16,17 @@ before_action :authorize, only: [:update, :destroy]
 
     def create
         #signup
-        user = User.create!(user_create_params)
+        user = User.create(user_create_params)
         if user.valid?
-            session[:user_id] = user.id
             profile = Profile.create(user_id: user.id, bio: "", dob: "", games_played: 0)
             if profile.valid?
                 user.profile = profile
                 user.save
+                session[:user_id] = user.id
+                render json: user, status: :created
             else
                 render json: {errors: profile.errors.full_messages}, status: :unprocessable_entity
             end
-            render json: user, status: :created
         else
             render json: {errors: user.errors.full_messages}, status: :unprocessable_entity
         end

@@ -4,8 +4,7 @@ import TicTacToe from './scenes/TicTacToe';
 import MemoryGame from './scenes/MemoryGame';
 
 //import scenes from ./scenes (once made)
-const PhaserGameConfig = ({gameType}) => {
-    let config;
+const PhaserGameConfig = ({gameType, onGamePlayed}) => {
     useEffect(() => {
       const config = {
         type: Phaser.AUTO,
@@ -22,12 +21,16 @@ const PhaserGameConfig = ({gameType}) => {
         },
         parent: 'phaser-game',
         scene: getScene(gameType)
-        // Other Phaser configuration...
       };
   
       new Phaser.Game(config);
+
+
+      
+
     }, []);
-  
+
+    
 
     const getScene = (gameType) => {
         switch (gameType) {
@@ -38,7 +41,17 @@ const PhaserGameConfig = ({gameType}) => {
         }
     }
 
+
+    const handler = () => {
+      onGamePlayed()
+    }
+
+    
+    eventEmitter.on("gameEnd", handler)
+
+
     return <div id="phaser-game" className='text-center'></div>;
   };
   
+  export const eventEmitter = new Phaser.Events.EventEmitter();
   export default PhaserGameConfig;

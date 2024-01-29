@@ -58,7 +58,7 @@ function Signup() {
                 })
             }
             else {
-                alert("Username is taken. Please try another one.")
+                alert("Error creating an account.")
             }
         })    
     }

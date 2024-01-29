@@ -1,4 +1,5 @@
 import Phaser, { Geom } from "phaser";
+import {eventEmitter} from '../PhaserGameConfig'
 class TicTacToe extends Phaser.Scene {
   constructor() {
     super("TicTacToe");
@@ -13,12 +14,15 @@ class TicTacToe extends Phaser.Scene {
 
   create() {
     // Basic scene setup, like creating sprites
+
+    this.eventEmitter = eventEmitter;
+
     // this.add.text(100, 100, 'Hello Phaser!', { fill: '#0f0' });
     this.graphics = this.add.graphics({lineStyle : {width: 4, color: 0x000000}})
     
     this.firstTurn = true;
     this.gameOver = false;
-
+    
 
         //variables and logic for player to pick 'x' or 'o'
     this.hasPicked = false;
@@ -209,51 +213,54 @@ class TicTacToe extends Phaser.Scene {
 
     //variables and logic for ai's move
     this.AIMove = async () => {
-      let win = new Promise(function(resolve) {
-        resolve("Success");
-      }).then(() => {
-        if (this.checkWin() === this.aiPick) {
-          this.endGame(false, "AI");
-          return;
+      if (!this.gameOver) {
+        let win = new Promise(function(resolve) {
+          resolve("Success");
+        }).then(() => {
+          if (this.checkWin() === this.aiPick) {
+            this.endGame(false, "AI");
+            return;
+          }
+          else if (this.checkWin() === this.playerPick) {
+            this.endGame(false, "Player");
+            return;
+          }
+          else if (this.checkTie()) {
+            this.endGame(true);
+            return;
+          }
+        })
+  
+        const [xIndex, yIndex] = GetMoveLocationAILogic.call(this);
+        if (!this.grid[xIndex][yIndex] && !this.grid.aiLocked) {
+          this.grid[xIndex][yIndex] = this.aiPick;
+          if (this.playerPick === 'x') {
+            this.addO(xIndex, yIndex);
+            console.log('ai adds o')
+          }
+          else {
+            this.addX(xIndex, yIndex);
+            console.log('ai adds x')
+          }
         }
-        else if (this.checkWin() === this.playerPick) {
-          this.endGame(false, "Player");
-          return;
-        }
-        else if (this.checkTie()) {
-          this.endGame(true);
-          return;
-        }
-      })
-
-      const [xIndex, yIndex] = GetMoveLocationAILogic.call(this);
-      if (!this.grid[xIndex][yIndex] && !this.grid.aiLocked) {
-        this.grid[xIndex][yIndex] = this.aiPick;
-        if (this.playerPick === 'x') {
-          this.addO(xIndex, yIndex);
-          console.log('ai adds o')
-        }
-        else {
-          this.addX(xIndex, yIndex);
-          console.log('ai adds x')
-        }
+        win = new Promise(function(resolve, reject) {
+          resolve("Success");
+        }).then(() => {
+          if (this.checkWin() === this.playerPick) {
+            this.endGame(false, "Player"); 
+          }
+          else if (this.checkWin === this.aiPick) {
+            this.endGame(false, "AI");
+          }
+          else if (this.checkTie()) {
+            this.endGame(true);
+          }
+          else {
+            changeTurn();
+          }
+        })
       }
-      win = new Promise(function(resolve, reject) {
-        resolve("Success");
-      }).then(() => {
-        if (this.checkWin() === this.playerPick) {
-          this.endGame(false, "Player"); 
-        }
-        else if (this.checkWin === this.aiPick) {
-          this.endGame(false, "AI");
-        }
-        else if (this.checkTie()) {
-          this.endGame(true);
-        }
-        else {
-          changeTurn();
-        }
-      })
+
     }
 
      const GetMoveLocationAILogic = () => {
@@ -364,6 +371,7 @@ class TicTacToe extends Phaser.Scene {
     }
 
     this.endGame = (tie, winner = null) => {
+      this.eventEmitter.emit("gameEnd");
       this.gameOver = true;
       this.grid.aiLocked = true;
       this.grid.isLocked = true;

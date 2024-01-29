@@ -34,7 +34,6 @@ function Account() {
 
     }
 
-    console.log(currentUser.profile)
     const profile = currentUser ? <Card>
     <h1 className="text-center">Profile</h1>
     <div id="profile" className="row justify-content-center">
@@ -42,7 +41,7 @@ function Account() {
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
            <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.profile ? currentUser.profile.bio : ""}</label>
-           <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.profile ? currentUser.profile.games_played : ""}</label>
+           <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.profile ? currentUser.profile.games_played : "0"}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
     </div>
 </Card> :
