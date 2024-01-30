@@ -11,6 +11,7 @@ function Account() {
 
     const [values, setValues] = useState({bio: currentUser ? currentUser.profile ? currentUser.profile.bio : "" : ""})
 
+    console.log(currentUser)
     const getProfileIcon = (currentUser) => {
         if(currentUser && currentUser.profile && currentUser.profile.photo) {
             console.log(currentUser.profile.photo)
@@ -66,6 +67,7 @@ function Account() {
             method: 'DELETE'
         });
         console.log(r)
+        setValues([]);
         setCurrentUser(null);   
         nav('/')
     }
@@ -87,7 +89,7 @@ function Account() {
                 r.json()
                 .then((updated) => {
                     console.log(updated);
-                    setCurrentUser({...currentUser, profile:updated});
+                    setCurrentUser({...currentUser, profile: updated});
                 })
             }
             else {

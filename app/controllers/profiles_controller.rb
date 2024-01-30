@@ -11,8 +11,7 @@ class ProfilesController < ApplicationController
     end
 
     def update
-        profile = Profile.find_by(user_id: [session[:user_id]])
-        puts profile
+        profile = Profile.find_by(user_id: session[:user_id])
         if params[:photo]
             puts params.inspect
             profile.photo.attach(params[:photo])

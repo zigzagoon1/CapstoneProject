@@ -3,7 +3,6 @@ import { useLocation, useParams } from "react-router-dom";
 import PhaserGameConfig from "./PhaserGameConfig";
 import GameComments from './GameComments'
 import { CurrentUserContext } from "./context/current_user";
-import EventEmitterSingleton from "./EventEmitter";
 
 function PlayGame() {
   const gameParams = useParams();
@@ -17,17 +16,15 @@ function PlayGame() {
 
   function handleGamePlayed() {
     console.log("event captured")
+    console.log(currentUser)
+    const formData = new FormData();
+
+    formData.append('games_played', currentUser.profile.games_played + 1)
     if (currentUser && currentUser.profile) {
       
       fetch(`/users/${currentUser.id}/profile`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...currentUser.profile,
-          games_played: currentUser.profile.games_played + 1,
-        })
+        body: formData,
       })
       .then((r) => {
         if (r.ok) {
@@ -38,7 +35,7 @@ function PlayGame() {
           })
         }
       })
-      console.log(currentUser.games_played)
+      console.log(currentUser.profile.games_played)
     }
   }
 
