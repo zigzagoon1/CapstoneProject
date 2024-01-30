@@ -16,6 +16,7 @@ class TicTacToe extends Phaser.Scene {
     // Basic scene setup, like creating sprites
 
     this.eventEmitter = eventEmitter;
+    
 
     // this.add.text(100, 100, 'Hello Phaser!', { fill: '#0f0' });
     this.graphics = this.add.graphics({lineStyle : {width: 4, color: 0x000000}})
@@ -394,6 +395,8 @@ class TicTacToe extends Phaser.Scene {
       const playAgain = this.add.text(172, 250, "Click here to play again", {fill: '#000000', fontSize: 32});
       playAgain.setInteractive()
       playAgain.on('pointerup', (e) => {
+        this.gameOver = false;
+        
         this.scene.restart();
       })
     }

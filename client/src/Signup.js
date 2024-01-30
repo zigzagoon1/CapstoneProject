@@ -49,17 +49,16 @@ function Signup() {
             body: JSON.stringify(newUser)
         })
         .then((r) => {
-            if (r.ok) {
                 r.json().then((createdUser) => {
-                    console.log(createdUser);
-                    setCurrentUser(createdUser);
-                    setSignupComplete(true);
-
+                    if (createdUser.errors) {
+                        console.log(createdUser.errors)
+                        alert(createdUser.errors)
+                    }
+                    else {
+                        setCurrentUser(createdUser);
+                        setSignupComplete(true);
+                    }
                 })
-            }
-            else {
-                alert("Error creating an account.")
-            }
         })    
     }
 

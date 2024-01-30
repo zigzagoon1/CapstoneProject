@@ -85,7 +85,6 @@ function GameComments({game, users}) {
     return(
         <div>
             {game && users && users[0] ? gameComments.map((comment)=> {
-                console.log(users)
                 const commentUser = users.find((user) => user.id === comment.user_id)
                 const username = commentUser.username
                 const userID = commentUser.id

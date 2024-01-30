@@ -12,9 +12,9 @@ function Account() {
     const [values, setValues] = useState({bio: currentUser ? currentUser.profile ? currentUser.profile.bio : "" : ""})
 
     const getProfileIcon = (currentUser) => {
-        if(currentUser && currentUser.photo) {
-            console.log(currentUser.photo)
-            return <img id="user-profile-img" src={currentUser.photo} alt="Profile"/>;
+        if(currentUser && currentUser.profile && currentUser.profile.photo) {
+            console.log(currentUser.profile.photo)
+            return <img id="user-profile-img" src={currentUser.profile.photo} alt="Profile"/>;
         }
         else {
             return <FaUser id="user-profile-img"  size="100"/>
@@ -34,13 +34,14 @@ function Account() {
 
     }
 
+
     const profile = currentUser ? <Card>
     <h1 className="text-center">Profile</h1>
     <div id="profile" className="row justify-content-center">
            {getProfileIcon(currentUser)}
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
-           <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.profile ? currentUser.profile.bio : ""}</label>
+           <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.profile? currentUser.profile.bio : ""}</label>
            <label className="col-12 text-center" htmlFor="games_played">Number of Games Played: {currentUser.profile ? currentUser.profile.games_played : "0"}</label>
            <Button className="btn col-2 my-2" onClick={handleEdit}>Edit Profile</Button>
     </div>
@@ -74,7 +75,7 @@ function Account() {
         const formData = new FormData();
 
         formData.append('bio', values.bio);
-        if (values.photo) {
+        if (values.photo !== currentUser.profile.photo) {
             formData.append('photo', values.photo)
         }
          await fetch(`/users/${currentUser.id}/profile`, {

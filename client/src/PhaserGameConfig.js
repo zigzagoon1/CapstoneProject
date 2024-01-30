@@ -25,12 +25,7 @@ const PhaserGameConfig = ({gameType, onGamePlayed}) => {
   
       new Phaser.Game(config);
 
-
-      
-
     }, []);
-
-    
 
     const getScene = (gameType) => {
         switch (gameType) {
@@ -41,12 +36,10 @@ const PhaserGameConfig = ({gameType, onGamePlayed}) => {
         }
     }
 
-
     const handler = () => {
       onGamePlayed()
     }
 
-    
     eventEmitter.on("gameEnd", handler)
 
 

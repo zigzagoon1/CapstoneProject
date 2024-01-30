@@ -25,6 +25,7 @@ function PlayGame() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          ...currentUser.profile,
           games_played: currentUser.profile.games_played + 1,
         })
       })
@@ -32,7 +33,7 @@ function PlayGame() {
         if (r.ok) {
           r.json().then((updatedProfile) => {
             console.log(updatedProfile.games_played)
-            const userNew = {...currentUser, profile: { games_played: updatedProfile.games_played}}
+            const userNew = {...currentUser, profile: {...currentUser.profile, games_played: updatedProfile.games_played}}
             setCurrentUser(userNew)
           })
         }
