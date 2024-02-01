@@ -10,7 +10,7 @@ function GameComments({game, users}) {
         fetch(`/games/${game.id}/comments`)
         .then((r => r.json()))
         .then((comments) => {
-            comments = comments.sort((a, b) => b.id - a.id)
+            comments = comments.sort((a, b) => a.id - b.id)
             setGameComments(comments);
         })
     }, [])
