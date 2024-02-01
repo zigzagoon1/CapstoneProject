@@ -69,6 +69,7 @@ function Account() {
             method: 'DELETE'
         });
         console.log(r)
+        setValues([]);
         setCurrentUser(null);   
         nav('/')
     }

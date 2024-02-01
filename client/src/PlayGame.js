@@ -16,6 +16,9 @@ function PlayGame() {
 
   function handleGamePlayed() {
     console.log("event captured")
+    const formData = new FormData();
+
+    formData.append('games_played', currentUser.profile.games_played + 1)
     if (currentUser && currentUser.profile) {
       console.log(currentUser)
       fetch(`/users/${currentUser.id}/profile`, {
@@ -36,7 +39,7 @@ function PlayGame() {
           })
         }
       })
-      console.log(currentUser.games_played)
+      console.log(currentUser.profile.games_played)
     }
   }
 
