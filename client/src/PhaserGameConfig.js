@@ -20,14 +20,14 @@ const PhaserGameConfig = ({gameType, onGamePlayed}) => {
             },
         },
         parent: 'phaser-game',
-        scene: getScene(gameType)
+        scene: getScene()
       };
   
       new Phaser.Game(config);
 
     }, []);
 
-    const getScene = (gameType) => {
+    const getScene = () => {
         switch (gameType) {
             case 'TicTacToe': return TicTacToe;
             case 'MemoryGame': return MemoryGame;

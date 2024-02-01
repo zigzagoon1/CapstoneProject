@@ -26,6 +26,10 @@ function GameComment({id, user_id, username, text, serverLikes, datetime, isAddC
 
     
     function handleSaveComment(e) {
+        if (commentText === "") {
+            alert("Comment cannot be empty.")
+            return;
+        }
         let numLikes = likes;
         if (e.target.id === 'thumbs-up') {
             if (firstClick) {

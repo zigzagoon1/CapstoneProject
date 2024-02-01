@@ -27,7 +27,7 @@ function GameComments({game, users}) {
          if (r.ok) {
             r.json().then((comment) => {
                 let newComments = [...gameComments, comment];
-                newComments = newComments.sort((a, b) => b.id - a.id)
+                newComments = newComments.sort((a, b) => a.id - b.id)
                 setGameComments(newComments)
             })
          }   
@@ -55,7 +55,7 @@ function GameComments({game, users}) {
                 .then((r) => r.json())
                 .then((updatedComments) => {
                     console.log(updatedComments)
-                    updatedComments = updatedComments.sort((a, b) => b.id - a.id)
+                    updatedComments = updatedComments.sort((a, b) => a.id - b.id)
                     setGameComments(updatedComments)
                 })
             }

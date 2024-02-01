@@ -9,17 +9,20 @@ function Account() {
     const [editProfileActive, setEditProfileActive] = useState(false)
     const nav = useNavigate();
 
-    const [values, setValues] = useState({bio: currentUser ? currentUser.profile ? currentUser.profile.bio : "" : ""})
+    const [values, setValues] = useState({bio: currentUser ? currentUser.profile ? currentUser.profile.bio : "" : "", photo: currentUser ? currentUser.profile ? currentUser.profile.photo : "" : ""})
 
-    const getProfileIcon = (currentUser) => {
+    const getProfileIcon = () => {
         if(currentUser && currentUser.profile && currentUser.profile.photo) {
-            console.log(currentUser.profile.photo)
             return <img id="user-profile-img" src={currentUser.profile.photo} alt="Profile"/>;
         }
         else {
             return <FaUser id="user-profile-img"  size="100"/>
         }
     }
+
+    useEffect(() => {
+        console.log(currentUser);
+    }, [currentUser])
 
     function handleValueChange(e, fieldName) {
         if (fieldName === "photo") {
@@ -38,7 +41,7 @@ function Account() {
     const profile = currentUser ? <Card>
     <h1 className="text-center">Profile</h1>
     <div id="profile" className="row justify-content-center">
-           {getProfileIcon(currentUser)}
+           {currentUser.profile && currentUser.profile.photo ? getProfileIcon() : <FaUser id="user-profile-img"  size="100"/>}
            <label className="col-12 text-center" htmlFor="name">Name: {currentUser.name}</label>
            <label className="col-12 text-center" htmlFor="username">Username: {currentUser.username}</label>
            <label className="col-12 text-center" htmlFor="bio">Bio: {currentUser.profile? currentUser.profile.bio : ""}</label>
@@ -87,7 +90,7 @@ function Account() {
                 r.json()
                 .then((updated) => {
                     console.log(updated);
-                    setCurrentUser({...currentUser, profile:updated});
+                    setCurrentUser({...currentUser, profile: updated});
                 })
             }
             else {
