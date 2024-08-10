@@ -15,9 +15,6 @@ function GamesList( {games, playButtonClicked} ) {
                 console.log(gamePreview);
                 return <GameCard key={game.id} name={game.name} genre={game.genre} description={game.description} src={gamePreview} alt={""} scale={""} 
                 buttonClicked={playButtonClicked} />
-                // if (gamePreview !== undefined) {
-
-                // }
             }) : null}
         </div>
     )
